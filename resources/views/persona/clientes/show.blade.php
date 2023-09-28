@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'colaboradores')
-@section('title-page', 'Detalle Colaborador')
+@section('title', 'Clientes')
+
 
 @push('styles')
 @endpush
@@ -9,11 +9,11 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                @include('personal.colaboradores.form')
+                @include('persona.clientes.form')
                 <div class="row justify-content-end">
                     <div class="col-md-2">
                         <x-link-text-icon id="btn-regresar" btn="btn-danger" icon="bi-arrow-left-circle" text="Regresar"
-                            position="left" href="{{ route('colaborador.index') }}" />
+                            position="left" href="{{ route('cliente.index') }}" />
                     </div>
                 </div>
             </div>

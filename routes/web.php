@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarcaController;
@@ -168,6 +169,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('permiso/{permiso}/edit', [PermisosController::class, 'edit'])->name('permiso.edit');
     Route::put('permiso/{permiso}', [PermisosController::class, 'update'])->name('permiso.update');
     Route::delete('permiso/{permiso}', [PermisosController::class, 'destroy'])->name('permiso.destroy');
+
+    // TODO: Rutas de Clientes
+    // Route::resource('cliente', ClienteController::class);
+    Route::get('cliente', [ClienteController::class, 'index'])->name('cliente.index');
+    Route::get('cliente/create', [ClienteController::class, 'create'])->name('cliente.create');
+    Route::post('cliente', [ClienteController::class, 'store'])->name('cliente.store');
+    Route::get('cliente/{cliente}', [ClienteController::class, 'show'])->name('cliente.show');
+    Route::get('cliente/{cliente}/edit', [ClienteController::class, 'edit'])->name('cliente.edit');
+    Route::put('cliente/{cliente}', [ClienteController::class, 'update'])->name('cliente.update');
+    Route::delete('cliente/{cliente}', [ClienteController::class, 'destroy'])->name('cliente.destroy');
+    Route::post('cliente/verificarEliminar', [ClienteController::class, 'verificarEliminar'])->name('cliente.verificarEliminar');
 });
 /**
  * RUTAS PUBLICAS

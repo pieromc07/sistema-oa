@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="{{ asset('assets/template/compiled/css/table-datatable-jquery.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('assets/vendor/libs/datatables.net-bs5/css/buttons.dataTables.min.css') }}">
+    <style type="text/css">
+        a.dt-button {
+            padding: 0 !important;
+            border: none !important;
+        }
+    </style>
 @endpush
 
 @push('scripts')
@@ -44,12 +50,19 @@
                 order: [0, 'desc'],
                 responsive: true,
                 dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    // 'csvHtml5',
-                    'pdfHtml5',
-                ],
+                buttons: [{
+                    extend: 'excelHtml5',
+                    footer: true,
+                    text: '<button class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel-fill"></i></button>',
+                    title: 'Reporte',
+                    filename: 'Reporte',
+                },{
+                    extend: 'pdfHtml5',
+                    footer: true,
+                    text: '<button class="btn btn-danger btn-sm"><i class="bi bi-file-earmark-pdf-fill"></i></button>',
+                    title: 'Reporte',
+                    filename: 'Reporte',
+                }],
                 "language": {
                     "url": "{{ asset('assets/vendor/libs/datatables.net-bs5/js/Spanish.json') }}"
                 },

@@ -102,16 +102,6 @@
                                     <div data-i18n="Roles">Colaboradores</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a href="{{ route('permiso.index') }}" class="menu-link">
-                                    <div data-i18n="Permisos">Permisos</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="{{ route('usuario.index') }}" class="menu-link">
-                                    <div data-i18n="Usuarios">Usuarios</div>
-                                </a>
-                            </li>
                         </ul>
                     </li>
 
@@ -140,6 +130,20 @@
                             </ul>
                         </li>
                     @endcan
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-store"></i>
+                            <div data-i18n="Seguridad">Venta</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{{ route('cliente.index') }}" class="menu-link">
+                                    <div data-i18n="Roles">Clientes</div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -297,6 +301,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     @stack('scripts')
+    @stack('components')
 </body>
 
 </html>

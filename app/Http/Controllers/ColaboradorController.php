@@ -20,7 +20,7 @@ class ColaboradorController extends Controller
     public function index()
     {
         $colaboradores = Colaborador::orderBy('col_id', 'desc')->get();
-        return view('personal.colaboradores.index', compact('colaboradores'));
+        return view('persona.colaboradores.index', compact('colaboradores'));
     }
 
     /**
@@ -31,8 +31,7 @@ class ColaboradorController extends Controller
         $tipoDocumentos = TipoDocumento::all();
         $colaborador = new Colaborador();
         $puestos = Puesto::all();
-
-        return view('personal.colaboradores.create', compact('tipoDocumentos', 'colaborador' , 'puestos'));
+        return view('persona.colaboradores.create', compact('tipoDocumentos', 'colaborador', 'puestos'));
     }
 
     /**
@@ -40,7 +39,6 @@ class ColaboradorController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validate($request, Colaborador::$rules);
         try {
             DB::beginTransaction();
@@ -65,7 +63,7 @@ class ColaboradorController extends Controller
         $departamento = Departamento::find($provincia->dep_id);
         $colaborador->pro_id = $provincia->pro_id;
         $colaborador->dep_id = $departamento->dep_id;
-        return view('personal.colaboradores.show', compact('colaborador', 'tipoDocumentos'));
+        return view('persona.colaboradores.show', compact('colaborador', 'tipoDocumentos'));
     }
 
     /**
@@ -81,7 +79,7 @@ class ColaboradorController extends Controller
         $colaborador->pro_id = $provincia->pro_id;
         $colaborador->dep_id = $departamento->dep_id;
 
-        return view('personal.colaboradores.edit', compact('colaborador', 'tipoDocumentos', 'puestos'));
+        return view('persona.colaboradores.edit', compact('colaborador', 'tipoDocumentos', 'puestos'));
     }
 
     /**
@@ -89,7 +87,6 @@ class ColaboradorController extends Controller
      */
     public function update(Request $request, Colaborador $colaborador)
     {
-
         $rules = Colaborador::$rules;
         $rules['col_numero_documento'] = 'required | min:8';
         $this->validate($request, $rules);
@@ -101,7 +98,6 @@ class ColaboradorController extends Controller
             DB::rollback();
             return redirect()->back()->with('error', 'Ocurrió un error al actualizar el colaborador');
         }
-
         return redirect()->route('colaborador.index')->with('success', 'Colaborador actualizado correctamente');
     }
 

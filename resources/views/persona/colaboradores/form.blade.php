@@ -14,7 +14,8 @@
 <!-- NOTE: Busqueda a Reniec -->
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input-load type="number" id="col_numero_documento" placeholder="Número de Documento" icon="bi-card-list"
-        name="col_numero_documento" value="{{ $colaborador->col_numero_documento }}" label="Numero de Documento" type="text"/>
+        name="col_numero_documento" value="{{ $colaborador->col_numero_documento }}" label="Numero de Documento"
+        type="text" />
 </div>
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input type="text" id="col_nombres" placeholder="Nombres" icon="bi-person-fill" name="col_nombres"
@@ -31,18 +32,18 @@
 <!-- NOTE: Fin Busqueda a Reniec -->
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input type="text" id="col_direccion" placeholder="Dirección" icon="bi-geo-alt-fill" name="col_direccion"
-        value="{{ $colaborador->col_direccion }}"  label="Dirección"/>
+        value="{{ $colaborador->col_direccion }}" label="Dirección" />
 </div>
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input type="text" id="col_celular" placeholder="Celular" icon="bi-phone-fill" name="col_celular"
-        value="{{ $colaborador->col_celular }}"  label="Celular"/>
+        value="{{ $colaborador->col_celular }}" label="Celular" />
 </div>
 <div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-select id="pue_id" placeholder="Seleccione Puesto " icon="bi-geo-alt-fill" name="pue_id" label="Puesto de Trabajo">
+    <x-select id="pue_id" placeholder="Seleccione Puesto " icon="bi-geo-alt-fill" name="pue_id"
+        label="Puesto de Trabajo">
         <x-slot name="options">
             @foreach ($puestos as $puesto)
-                <option value="{{ $puesto->pue_id }}"
-                    {{ old('pue_id') == $puesto->pue_id ? 'selected' : '' }}
+                <option value="{{ $puesto->pue_id }}" {{ old('pue_id') == $puesto->pue_id ? 'selected' : '' }}
                     @if (isset($colaborador)) {{ $colaborador->pue_id == $puesto->pue_id ? 'selected' : '' }} @endif>
                     {{ $puesto->pue_nombre }}
                 </option>
@@ -52,7 +53,8 @@
 </div>
 
 <div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-select id="dep_id" placeholder="Seleccione Departamento" icon="bi-geo-alt-fill" name="dep_id" label="Departamento">
+    <x-select id="dep_id" placeholder="Seleccione Departamento" icon="bi-geo-alt-fill" name="dep_id"
+        label="Departamento">
         <x-slot name="options">
         </x-slot>
     </x-select>

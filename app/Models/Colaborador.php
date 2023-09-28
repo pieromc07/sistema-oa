@@ -40,7 +40,7 @@ class Colaborador extends Model
         'col_direccion',
         'col_celular',
         'dis_id',
-        'suc_id'
+        'pue_id',
     ];
 
     /**
@@ -61,10 +61,10 @@ class Colaborador extends Model
         "col_apellido_materno" => "required | max:255",
         "col_direccion" => "nullable | max:255",
         "col_celular" => "nullable | max:9 | min:9",
-        "suc_id" => "required",
         "dep_id" => "required",
         "pro_id" => "required",
         "dis_id" => "required",
+        "pue_id" => "required",
     ];
 
     /**
@@ -76,11 +76,6 @@ class Colaborador extends Model
         return $this->belongsTo(TipoDocumento::class, 'tdo_id', 'tdo_id');
     }
 
-    public function sucursal()
-    {
-        return $this->belongsTo(Sucursal::class, 'suc_id', 'suc_id');
-    }
-
     public function distrito()
     {
         return $this->belongsTo(Distrito::class, 'dis_id', 'dis_id');
@@ -89,5 +84,10 @@ class Colaborador extends Model
     public function usuario()
     {
         return $this->hasOne(User::class, 'col_id', 'col_id');
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puesto::class, 'pue_id', 'pue_id');
     }
 }

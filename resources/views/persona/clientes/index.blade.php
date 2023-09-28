@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Colaboradores')
-@section('title-page', 'Colaboradores')
+@section('title', 'Clientes')
+
 
 @push('styles')
 @endpush
@@ -20,14 +20,14 @@
         <div class="card-header">
             <div class="row justify-content-end">
                 <div class="col-md-3 d-flex justify-content-end">
-                    <x-link-text-icon id="btn-create" btn="btn-primary" icon="bi-plus-circle" text="Nuevo Colaborador"
-                        position="right" href="{{ route('colaborador.create') }}" />
+                    <x-link-text-icon id="btn-create" btn="btn-primary" icon="bi-plus-circle" text="Nuevo cliente"
+                        position="right" href="{{ route('cliente.create') }}" />
                 </div>
             </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <x-table id="table-colaboradores">
+                <x-table id="table-clientes">
                     <x-slot name="header">
                         <th colspan="1" class="text-center">ID</th>
                         <th colspan="1" class="text-center">Documento</th>
@@ -36,30 +36,30 @@
                         <th colspan="1" class="text-center">Acciones</th>
                     </x-slot>
                     <x-slot name='slot'>
-                        @foreach ($colaboradores as $colaborador)
+                        @foreach ($clientes as $cliente)
                             <tr>
                                 <td class="text-center">
-                                    {{ $colaborador->col_id }}
+                                    {{ $cliente->cli_id }}
                                 </td>
                                 <td class="text-center">
-                                    {{ $colaborador->col_numero_documento }}
+                                    {{ $cliente->cli_numero_documento }}
                                 </td>
                                 <td class="text-center">
-                                    {{ $colaborador->col_nombres }}
+                                    {{ $cliente->cli_nombres }}
                                 </td>
                                 <td class="text-center">
-                                    {{ $colaborador->col_apellido_paterno }} {{ $colaborador->col_apellido_materno }}
+                                    {{ $cliente->cli_apellido_paterno }} {{ $cliente->cli_apellido_materno }}
                                 </td>
                                 <td class="text-center">
                                     <x-link-icon btn="btn-info" icon="bi-eye-fill" title="Ver"
-                                        href="{{ route('colaborador.show', $colaborador) }}" />
+                                        href="{{ route('cliente.show', $cliente) }}" />
                                     <x-link-icon btn="btn-warning" icon="bi-pencil-square" title="Editar"
-                                        href="{{ route('colaborador.edit', $colaborador->col_id) }}" />
-                                    <x-form-table id="form-delete-{{ $colaborador }}" method="POST"
-                                        action="{{ route('colaborador.destroy', $colaborador) }}" role="form">
+                                        href="{{ route('cliente.edit', $cliente->cli_id) }}" />
+                                    <x-form-table id="form-delete-{{ $cliente }}" method="POST"
+                                        action="{{ route('cliente.destroy', $cliente) }}" role="form">
                                         @method('DELETE')
                                         <x-button-icon btn="btn-danger" icon="bi-trash-fill" title="Eliminar"
-                                            onclick="Eliminar({{ $colaborador->col_id }})" />
+                                            onclick="Eliminar({{ $cliente->cli_id }})" />
                                     </x-form-table>
                                 </td>
                             </tr>
@@ -81,7 +81,7 @@
             event.preventDefault();
             const form = $('#form-delete-' + id);
             $.post({
-                url: '{{ route('colaborador.verificarEliminar') }}',
+                url: '{{ route('cliente.verificarEliminar') }}',
                 data: {
                     _token: '{{ csrf_token() }}',
                     id: id
