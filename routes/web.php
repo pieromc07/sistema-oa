@@ -14,7 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubCategoriaController;
 use App\Http\Controllers\TipoCategoriaController;
 use App\Http\Controllers\UnidadMedidaController;
-use App\Models\TipoCategoria;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -39,21 +39,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    /**
-     * RUTAS DE COLABORADORES
-     * PERMISO : middleware('permission:colaboradores.index')
-     * - colaboradores.index : lista
-     * - colaboradores.create : crear
-     * - colaboradores.edit : editar
-     * - colaboradores.destroy : eliminar
-     * - colaboradores.show : ver
-     * ROLE : middleware('role:admin')
-     * - admin : todos los permisos
-     * => middleware (auth, token, role, permission ) => route (controller)
-     */
 
     // TODO: Rutas de Colaboradores
-    // Route::resource('colaborador', ColaboradorController::class);
     Route::get('colaborador', [ColaboradorController::class, 'index'])->name('colaborador.index');
     Route::get('colaborador/create', [ColaboradorController::class, 'create'])->name('colaborador.create');
     Route::post('colaborador', [ColaboradorController::class, 'store'])->name('colaborador.store');
@@ -64,7 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('colaborador/verificarEliminar', [ColaboradorController::class, 'verificarEliminar'])->name('colaborador.verificarEliminar');
 
     // TODO: Rutas de Usuarios
-    // Route::resource('usuario', UserController::class);
     Route::get('usuario', [UserController::class, 'index'])->name('usuario.index');
     Route::get('usuario/create', [UserController::class, 'create'])->name('usuario.create');
     Route::post('usuario', [UserController::class, 'store'])->name('usuario.store');
@@ -75,7 +61,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('usuario/verificarEliminar', [UserController::class, 'verificarEliminar'])->name('usuario.verificarEliminar');
 
     // TODO: Rutas de Roles
-    // Route::resource('rol', RoleController::class);
     Route::get('rol', [RoleController::class, 'index'])->name('rol.index');
     Route::get('rol/create', [RoleController::class, 'create'])->name('rol.create');
     Route::post('rol', [RoleController::class, 'store'])->name('rol.store');
@@ -86,7 +71,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('rol/verificarEliminar', [RoleController::class, 'verificarEliminar'])->name('rol.verificarEliminar');
 
     // TODO: Rutas de Productos
-    // Route::resource('producto', ProductoController::class);
     Route::get('producto', [ProductoController::class, 'index'])->name('producto.index');
     Route::get('producto/create', [ProductoController::class, 'create'])->name('producto.create');
     Route::post('producto', [ProductoController::class, 'store'])->name('producto.store');
@@ -94,6 +78,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('producto/{producto}/edit', [ProductoController::class, 'edit'])->name('producto.edit');
     Route::put('producto/{producto}', [ProductoController::class, 'update'])->name('producto.update');
     Route::delete('producto/{producto}', [ProductoController::class, 'destroy'])->name('producto.destroy');
+    Route::get('producto/buscar/codigo/{codigo}', [ProductoController::class, 'buscarCodigo'])->name('producto.buscarCodigo');
+    Route::get('producto/buscar/id/{id}', [ProductoController::class, 'buscarId'])->name('producto.buscarId');
 
     // TODO: Rutas de Tipo Categorias
     Route::get('tipocategoria', [TipoCategoriaController::class, 'index'])->name('tipocategoria.index');
@@ -106,7 +92,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('tipocategoria/verificarEliminar', [TipoCategoriaController::class, 'verificarEliminar'])->name('tipocategoria.verificarEliminar');
 
     // TODO: Rutas de Categorias
-    // Route::resource('categoria', CategoriaController::class);
     Route::get('categoria', [CategoriaController::class, 'index'])->name('categoria.index');
     Route::get('categoria/create', [CategoriaController::class, 'create'])->name('categoria.create');
     Route::post('categoria', [CategoriaController::class, 'store'])->name('categoria.store');
@@ -117,7 +102,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('categoria/verificarEliminar', [CategoriaController::class, 'verificarEliminar'])->name('categoria.verificarEliminar');
 
     // TODO: Rutas de Subcategorias
-    // Route::resource('subcategoria', SubCategoriaController::class);
     Route::get('subcategoria', [SubCategoriaController::class, 'index'])->name('subcategoria.index');
     Route::get('subcategoria/create', [SubCategoriaController::class, 'create'])->name('subcategoria.create');
     Route::post('subcategoria', [SubCategoriaController::class, 'store'])->name('subcategoria.store');
@@ -128,7 +112,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('subcategoria/verificarEliminar', [SubCategoriaController::class, 'verificarEliminar'])->name('subcategoria.verificarEliminar');
 
     // TODO: Rutas de Marcas
-    // Route::resource('marca', MarcaController::class);
     Route::get('marca', [MarcaController::class, 'index'])->name('marca.index');
     Route::get('marca/create', [MarcaController::class, 'create'])->name('marca.create');
     Route::post('marca', [MarcaController::class, 'store'])->name('marca.store');
@@ -139,7 +122,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('marca/verificarEliminar', [MarcaController::class, 'verificarEliminar'])->name('marca.verificarEliminar');
 
     // TODO: Rutas de Modelo
-    // Route::resource('modelo', ModeloController::class);
     Route::get('modelo', [ModeloController::class, 'index'])->name('modelo.index');
     Route::get('modelo/create', [ModeloController::class, 'create'])->name('modelo.create');
     Route::post('modelo', [ModeloController::class, 'store'])->name('modelo.store');
@@ -150,7 +132,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('modelo/verificarEliminar', [ModeloController::class, 'verificarEliminar'])->name('modelo.verificarEliminar');
 
     // TODO: Rutas de Unidad Medida
-    // Route::resource('unidadmedida', UnidadMedidaController::class);
     Route::get('unidadmedida', [UnidadMedidaController::class, 'index'])->name('unidadmedida.index');
     Route::get('unidadmedida/create', [UnidadMedidaController::class, 'create'])->name('unidadmedida.create');
     Route::post('unidadmedida', [UnidadMedidaController::class, 'store'])->name('unidadmedida.store');
@@ -161,7 +142,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('unidadmedida/verificarEliminar', [UnidadMedidaController::class, 'verificarEliminar'])->name('unidadmedida.verificarEliminar');
 
     // TODO: Rutas de Permisos
-    // Route::resource('permiso', PermisosController::class);
     Route::get('permiso', [PermisosController::class, 'index'])->name('permiso.index');
     Route::get('permiso/create', [PermisosController::class, 'create'])->name('permiso.create');
     Route::post('permiso', [PermisosController::class, 'store'])->name('permiso.store');
@@ -171,7 +151,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('permiso/{permiso}', [PermisosController::class, 'destroy'])->name('permiso.destroy');
 
     // TODO: Rutas de Clientes
-    // Route::resource('cliente', ClienteController::class);
     Route::get('cliente', [ClienteController::class, 'index'])->name('cliente.index');
     Route::get('cliente/create', [ClienteController::class, 'create'])->name('cliente.create');
     Route::post('cliente', [ClienteController::class, 'store'])->name('cliente.store');
@@ -180,7 +159,44 @@ Route::middleware(['auth'])->group(function () {
     Route::put('cliente/{cliente}', [ClienteController::class, 'update'])->name('cliente.update');
     Route::delete('cliente/{cliente}', [ClienteController::class, 'destroy'])->name('cliente.destroy');
     Route::post('cliente/verificarEliminar', [ClienteController::class, 'verificarEliminar'])->name('cliente.verificarEliminar');
+    Route::post('cliente/registrar', [ClienteController::class, 'registrar'])->name('cliente.registrar');
+
+    //TODO: Rutas de Ventas
+    Route::get('venta', [VentaController::class, 'index'])->name('venta.index');
+    Route::get('venta/create', [VentaController::class, 'create'])->name('venta.create');
+    Route::post('venta', [VentaController::class, 'store'])->name('venta.store');
+    Route::get('venta/{venta}', [VentaController::class, 'show'])->name('venta.show');
+    Route::get('venta/{venta}/edit', [VentaController::class, 'edit'])->name('venta.edit');
+    Route::put('venta/{venta}', [VentaController::class, 'update'])->name('venta.update');
+    Route::delete('venta/{venta}', [VentaController::class, 'destroy'])->name('venta.destroy');
+    Route::get('venta/correlativo/{serie}', [VentaController::class, 'correlativo'])->name('venta.correlativo');
+    Route::get('prueba', function () {
+        //  En producto generar el codido de barras
+        //  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+        //  1234567890
+        //  con un minimo de 6 caracteres y maximo de 6 caracteres
+        //  y que no se repita para cada producto
+        //  3 letras y 3 numeros
+        $productos = \App\Models\Producto::all();
+        foreach ($productos as $producto) {
+            do	{
+                $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $numbers = '1234567890';
+                $randomString = '';
+                for ($i = 0; $i < 3; $i++) {
+                    $randomString .= $letters[rand(0, strlen($letters) - 1)];
+                }
+                for ($i = 0; $i < 3; $i++) {
+                    $randomString .= $numbers[rand(0, strlen($numbers) - 1)];
+                }
+              $exist = \App\Models\Producto::where('pro_codigo_barra', $randomString)->first();
+            } while ($exist);
+            $producto->pro_codigo_barra = $randomString;
+            $producto->save();
+        }
+    })->name('prueba');
 });
+
 /**
  * RUTAS PUBLICAS
  */
@@ -188,3 +204,4 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/departamentos', [PublicaController::class, 'departamentos'])->name('departamentos');
 Route::get('/provincias', [PublicaController::class, 'provincias'])->name('provincias');
 Route::get('/distritos', [PublicaController::class, 'distritos'])->name('distritos');
+Route::get('/bucarPorDistrito', [PublicaController::class, 'bucarPorDistrito'])->name('bucarPorDistrito');

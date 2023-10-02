@@ -22,27 +22,27 @@ class Categoria extends Model
       *
       * @var int
       */
- 
+
      protected $primaryKey = 'cat_id';
- 
+
      /**
       * The attributes that are mass assignable.
       *
       * @var array<int, string>
       */
- 
+
      protected $fillable = [
          'cat_nombre',
          'tic_id'
      ];
- 
+
      /**
       * Indicates if the model should be timestamped.
       *
       * @var bool
       */
      public $timestamps = false;
- 
+
      /**
       *  Rules for validation
       */
@@ -50,7 +50,7 @@ class Categoria extends Model
          "cat_nombre" => "required | min:2 | max:30 | unique:categorias",
          "tic_id" => "required",
      ];
- 
+
      /**
      * Get the tipo_categorias that owns the categorias.
      */
@@ -60,10 +60,10 @@ class Categoria extends Model
     }
 
     /**
-     * Get the sub_categorias that owns the categorias.
+     * Get the productos for the categorias.
      */
-    public function subcategorias()
-    {
-        return $this->hasMany(SubCategoria::class, 'cat_id', 'cat_id');
+    public function productos(){
+        return $this->hasMany(Producto::class, 'cat_id', 'cat_id');
     }
+
 }

@@ -19,7 +19,7 @@ class TipoCategoriaController extends Controller
             $tipoCategoria = new TipoCategoria();
         }
         $tipoCategorias = TipoCategoria::orderBy('tic_id', 'desc')->get();
-        return view('producto.tipocategoria.index', compact('tipoCategorias', 'tipoCategoria'));
+        return view('producto.tipocategorias.index', compact('tipoCategorias', 'tipoCategoria'));
     }
 
     /**
@@ -28,7 +28,7 @@ class TipoCategoriaController extends Controller
     public function create()
     {
         $tipoCategoria = new TipoCategoria();
-        return view('producto.tipocategoria.create', compact('tipoCategoria'));
+        return view('producto.tipocategorias.create', compact('tipoCategoria'));
     }
 
     /**
@@ -54,7 +54,7 @@ class TipoCategoriaController extends Controller
      */
     public function show(TipoCategoria $tipoCategoria)
     {
-        return view('producto.tipocategoria.show', compact('tipoCategoria'));
+        return view('producto.tipocategorias.show', compact('tipoCategoria'));
     }
 
     /**
@@ -62,7 +62,7 @@ class TipoCategoriaController extends Controller
      */
     public function edit(TipoCategoria $tipoCategoria)
     {
-        return view('producto.tipocategoria.edit', compact('tipoCategoria'));
+        return view('producto.tipocategorias.edit', compact('tipoCategoria'));
     }
 
     /**
@@ -105,7 +105,7 @@ class TipoCategoriaController extends Controller
 
         try {
             $tipoCategoria = TipoCategoria::find($request->id);
-            if (count($tipoCategoria->categorias)>0) {
+            if (count($tipoCategoria->categorias) > 0) {
                 return response()->json([
                     'success' => false,
                     'message' => 'El tipo de categoría no se puede eliminar porque tiene una categoría asociada',

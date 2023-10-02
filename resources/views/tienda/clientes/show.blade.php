@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                @include('persona.clientes.form')
+                @include('tienda.clientes.form')
                 <div class="row justify-content-end">
                     <div class="col-md-2">
                         <x-link-text-icon id="btn-regresar" btn="btn-danger" icon="bi-arrow-left-circle" text="Regresar"

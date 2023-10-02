@@ -1,4 +1,4 @@
-@props(['id', 'placeholder', 'icon', 'name', 'value', 'label'])
+@props(['id', 'placeholder', 'icon', 'name', 'value', 'label', 'req'])
 
 @php
     $id = $id ?? md5('input-load' . rand(1, 1000));
@@ -7,6 +7,7 @@
     $name = $name ?? 'search';
     $value = $value ?? '';
     $label = $label ?? 'Input Load';
+    $req = $req ?? true;
 @endphp
 
 @push('styles')
@@ -23,7 +24,7 @@
 
 <div class="mb-3">
     <label class="form-label" for="{{ $id }}">
-        {{ $label }}
+        {{ $label }} @if ($req) <span class="text-danger">*</span> @endif
     </label>
     <div class="input-group input-group-merge">
         <span  class="input-group-text">

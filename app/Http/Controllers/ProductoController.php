@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Marca;
-use App\Models\Modelo;
 use App\Models\Producto;
-use App\Models\SubCategoria;
-use App\Models\UnidadMedida;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class ProductoController extends Controller
 {
@@ -18,7 +17,7 @@ class ProductoController extends Controller
     public function index()
     {
         $productos = Producto::orderBy('pro_id', 'desc')->get();
-        return view('producto.producto.index', compact('productos'));
+        return view('producto.productos.index', compact('productos'));
     }
 
     /**
@@ -26,14 +25,12 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        $subcategorias = SubCategoria::all();
         $marcas = Marca::all();
-        $modelos = Modelo::all();
-        $unidadesMedidas = UnidadMedida::all();
+        $categorias = Categoria::all();
         $producto = new Producto();
         $status = false;
 
-        return view('producto.producto.create', compact('subcategorias', 'marcas', 'modelos', 'unidadesMedidas', 'producto', 'status'));
+        return view('producto.productos.create', compact('marcas','producto', 'status', 'categorias'));
     }
 
     /**
@@ -59,13 +56,11 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        $subcategorias = SubCategoria::all();
         $marcas = Marca::all();
-        $modelos = Modelo::all();
-        $unidadesMedidas = UnidadMedida::all();
+        $categorias = Categoria::all();
         $status = true;
 
-        return view('producto.producto.show', compact('producto', 'subcategorias', 'marcas', 'modelos', 'unidadesMedidas', 'status'));
+        return view('producto.productos.show', compact('producto', 'marcas', 'categorias', 'status'));
     }
 
     /**
@@ -73,13 +68,12 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
-        $subcategorias = SubCategoria::all();
+
         $marcas = Marca::all();
-        $modelos = Modelo::all();
-        $unidadesMedidas = UnidadMedida::all();
+        $categorias = Categoria::all();
         $status = false;
 
-        return view('producto.producto.edit', compact('producto', 'subcategorias', 'marcas', 'modelos', 'unidadesMedidas', 'status'));
+        return view('producto.productos.edit', compact('producto', 'marcas', 'categorias', 'status'));
     }
 
     /**
@@ -116,5 +110,68 @@ class ProductoController extends Controller
             return redirect()->back()->with('error', 'Ocurrió un error al eliminar el producto');
         }
         return redirect()->route('producto.index')->with('success', 'Producto eliminado correctamente');
+    }
+
+    /**
+     * Busca productos por codigo de barra
+     * @param String $codigo
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function buscarCodigo(String $codigo){
+        try {
+            DB::beginTransaction();
+            $producto = Producto::where('pro_codigo_barra', $codigo)->first();
+            if ($producto) {
+                return response()->json([
+                    'success' => true,
+                    'producto' => $producto,
+                    'marca' => $producto->marca
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se encontró el producto'
+                ]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al buscar el producto'
+            ]);
+        }
+    }
+
+    /**
+     * Busca productos por id
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function buscarId(int $id){
+        try {
+            DB::beginTransaction();
+            $producto = Producto::where('pro_id', $id)->first();
+            if ($producto) {
+                return response()->json([
+                    'success' => true,
+                    'producto' => $producto,
+                    'marca' => $producto->marca
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se encontró el producto'
+                ]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al buscar el producto'
+            ]);
+        }
     }
 }

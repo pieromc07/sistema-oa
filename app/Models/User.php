@@ -85,4 +85,11 @@ class User extends Authenticatable
         return $this->belongsTo(Colaborador::class, 'col_id', 'col_id');
     }
 
+    /**
+     * Get the ventas for the user.
+     */
+    public function ventas(){
+        return $this->hasMany(Venta::class, 'usu_id', 'usu_id');
+    }
+
 }

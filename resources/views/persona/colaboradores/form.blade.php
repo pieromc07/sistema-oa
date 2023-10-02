@@ -82,7 +82,6 @@
         let dep = {{ $colaborador->dep_id ?? '0' }};
         let pro = {{ $colaborador->pro_id ?? '0' }};
         let dis = {{ $colaborador->dis_id ?? '0' }};
-        console.log(dep, pro, dis);
 
         @error('dep_id')
             dep = {{ old('dep_id') }};

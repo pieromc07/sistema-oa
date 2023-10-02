@@ -15,11 +15,11 @@ class MarcaController extends Controller
     {
         if ($request->has('search')) {
             $marca = Marca::where('mar_id', $request->search)->first();
-        }else{
+        } else {
             $marca = new Marca();
         }
         $marcas = Marca::orderBy('mar_id', 'desc')->get();
-        return view('producto.marca.index', compact('marcas' , 'marca'));
+        return view('producto.marcas.index', compact('marcas', 'marca'));
     }
 
     /**
@@ -28,7 +28,7 @@ class MarcaController extends Controller
     public function create()
     {
         $marca = new Marca();
-        return view('producto.marca.create', compact('marca'));
+        return view('producto.marcas.create', compact('marca'));
     }
 
     /**
@@ -54,7 +54,7 @@ class MarcaController extends Controller
      */
     public function show(Marca $marca)
     {
-        return view('producto.marca.show', compact('marca'));
+        return view('producto.marcas.show', compact('marca'));
     }
 
     /**
@@ -62,7 +62,7 @@ class MarcaController extends Controller
      */
     public function edit(Marca $marca)
     {
-        return view('producto.marca.edit', compact('marca'));
+        return view('producto.marcas.edit', compact('marca'));
     }
 
     /**
@@ -106,7 +106,7 @@ class MarcaController extends Controller
         try {
             $marca = Marca::find($request->id);
 
-            if (count($marca->productos)>0) {
+            if (count($marca->productos) > 0) {
                 return response()->json([
                     'success' => false,
                     'message' => 'La marca no se puede eliminar porque tiene un producto asociado',

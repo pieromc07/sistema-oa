@@ -7,6 +7,6 @@
     $title = $title ?? '';
 @endphp
 
-<button class="btn {{ $btn }}" title="{{ $title }}" {{ $attributes }}>
+<button class="btn {{ $btn }}" title="{{ $title }}" {{ $attributes }} id="{{ $id }}">
     <i class="bi {{ $icon }}"></i>
 </button>

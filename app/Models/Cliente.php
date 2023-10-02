@@ -79,5 +79,13 @@ class Cliente extends Model
         return $this->belongsTo(Distrito::class, 'dis_id');
     }
 
+    /**
+     * Get the ventas for the cliente.
+     */
+
+    public function ventas(){
+        return $this->hasMany(Venta::class, 'cli_id', 'cli_id');
+    }
+
 
 }

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Clientes')
+@section('title', 'producto')
+@section('title-page', 'Actualizar Producto')
 
 @push('styles')
 @endpush
@@ -11,17 +12,17 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <x-form id="update-clientes" action="{{ route('cliente.update', ['cliente' => $cliente]) }}"
-                method="POST" role="form">
+            <x-form id="update-productos" action="{{ route('producto.update', ['producto' => $producto]) }}" method="POST"
+                role="form">
                 @method('PUT')
-                @include('persona.clientes.form')
+                @include('producto.productos.form')
                 <div class="row justify-content-end">
                     <div class="col-md-2">
                         <x-button id="btn-update" btn="btn-primary" icon="bi-save" text="Actualizar" />
                     </div>
                     <div class="col-md-2">
                         <x-link-text-icon id="btn-cancel" btn="btn-danger" icon="bi-x-circle" text="Cancelar"
-                            position="right" href="{{ route('cliente.index') }}" />
+                            position="right" href="{{ route('producto.index') }}" />
                     </div>
                 </div>
 

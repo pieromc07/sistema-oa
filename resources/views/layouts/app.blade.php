@@ -44,6 +44,8 @@
 
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-icons/bootstrap-icons.min.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/css/select2.min.css') }}">
+
     <!-- Page CSS -->
     @stack('styles')
     <!-- Helpers -->
@@ -133,15 +135,52 @@
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-store"></i>
-                            <div data-i18n="Seguridad">Venta</div>
+                            <div data-i18n="Seguridad">Tienda</div>
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
                                 <a href="{{ route('cliente.index') }}" class="menu-link">
-                                    <div data-i18n="Roles">Clientes</div>
+                                    <div data-i18n="Clientes">Clientes</div>
                                 </a>
                             </li>
-
+                            <li class="menu-item">
+                                <a href="{{ route('venta.index') }}" class="menu-link">
+                                    <div data-i18n="Ventas">Listado de Ventas</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('venta.create') }}" class="menu-link">
+                                    <div data-i18n="Ventas">Nueva Venta</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-package"></i>
+                            <div data-i18n="Seguridad">Productos</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{{ route('tipocategoria.index') }}" class="menu-link">
+                                    <div data-i18n="Tipo Categorias">Tipo Categorias</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('categoria.index') }}" class="menu-link">
+                                    <div data-i18n="Categorias">Categorias</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('marca.index') }}" class="menu-link">
+                                    <div data-i18n="Marcas">Marcas</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('producto.index') }}" class="menu-link">
+                                    <div data-i18n="Productos">Productos</div>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -290,6 +329,7 @@
     <script src="{{ asset('assets/vendor/libs/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/choices/scripts/choices.min.js') }}"></script>
 
+    <script src="{{ asset('assets/vendor/libs/select2/js/select2.min.js') }}"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>

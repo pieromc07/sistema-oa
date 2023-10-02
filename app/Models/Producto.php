@@ -22,15 +22,15 @@ class Producto extends Model
       *
       * @var int
       */
-  
+
      protected $primaryKey = 'pro_id';
-  
+
      /**
       * The attributes that are mass assignable.
       *
       * @var array<int, string>
       */
-  
+
      protected $fillable = [
         'pro_nombre',
         'pro_descripcion',
@@ -40,19 +40,17 @@ class Producto extends Model
         'pro_precio_venta',
         'pro_precio_compra',
         'pro_fecha_vencimiento',
-        'subc_id',
+        'cat_id',
         'mar_id',
-        'mod_id',
-        'unm_id'
      ];
-  
+
      /**
       * Indicates if the model should be timestamped.
       *
       * @var bool
       */
      public $timestamps = false;
-  
+
      /**
       *  Rules for validation
       */
@@ -60,22 +58,20 @@ class Producto extends Model
         "pro_nombre" => "required | min : 2 | max: 30 | unique:productos",
         "pro_descripcion" => "max: 255",
         "pro_stock" => "required | min : 1 | max: 10",
-        "pro_stock_minimo" => "required | min : 1 | max: 10",
+        "pro_stock_minimo" => "",
         "pro_codigo_barra" => "required | min : 1 | max: 30",
-        "pro_precio_venta" => "required | min : 1 | max: 10",
-        "pro_precio_compra" => "required | min : 1 | max: 10",
-        "subc_id" => "required",
+        "pro_precio_venta" => "required | min : 1",
+        "pro_precio_compra" => "",
+        "pro_fecha_vencimiento" => "",
+        "cat_id" => "required",
         "mar_id" => "required",
-        "mod_id" => "required",
-        "unm_id" => "required",
      ];
-  
+
     /**
-     * Get the productos that owns the sub_categorias.
+     * Get the productos that owns the categorias.
      */
-    public function subcategoria()
-    {
-        return $this->belongsTo(SubCategoria::class, 'subc_id', 'subc_id');
+    public function categoria(){
+        return $this->belongsTo(Categoria::class, 'cat_id', 'cat_id');
     }
     /**
      * Get the productos that owns the marcas.
@@ -83,19 +79,5 @@ class Producto extends Model
     public function marca()
     {
         return $this->belongsTo(Marca::class, 'mar_id', 'mar_id');
-    }
-    /**
-     * Get the productos that owns the modelos.
-     */
-    public function modelo()
-    {
-        return $this->belongsTo(Modelo::class, 'mod_id', 'mod_id');
-    }
-    /**
-     * Get the productos that owns the unidad_medidas.
-     */
-    public function unidadMedida()
-    {
-        return $this->belongsTo(UnidadMedida::class, 'unm_id', 'unm_id');
     }
 }

@@ -16,14 +16,14 @@ class CategoriaController extends Controller
     {
         if ($request->has('search')) {
             $categoria = Categoria::where('cat_id', $request->search)->first();
-        }else{
+        } else {
             $categoria = new Categoria();
         }
 
         $tipoCategorias = TipoCategoria::all();
         $categorias = Categoria::orderBy('cat_id', 'desc')->get();
 
-        return view('producto.categoria.index', compact('categorias' , 'categoria', 'tipoCategorias'));
+        return view('producto.categorias.index', compact('categorias', 'categoria', 'tipoCategorias'));
     }
 
     /**
@@ -33,7 +33,7 @@ class CategoriaController extends Controller
     {
         $tipoCategorias = TipoCategoria::all();
         $categoria = new Categoria();
-        return view('producto.categoria.create', compact('categoria', 'tipoCategorias'));
+        return view('producto.categorias.create', compact('categoria', 'tipoCategorias'));
     }
 
     /**
@@ -60,7 +60,7 @@ class CategoriaController extends Controller
     public function show(Categoria $categoria)
     {
         $tipoCategorias = TipoCategoria::all();
-        return view('producto.categoria.show', compact('categoria', 'tipoCategorias'));
+        return view('producto.categorias.show', compact('categoria', 'tipoCategorias'));
     }
 
     /**
@@ -69,7 +69,7 @@ class CategoriaController extends Controller
     public function edit(Categoria $categoria)
     {
         $tipoCategorias = TipoCategoria::all();
-        return view('producto.categoria.edit', compact('categoria', 'tipoCategorias'));
+        return view('producto.categorias.edit', compact('categoria', 'tipoCategorias'));
     }
 
     /**
@@ -113,7 +113,7 @@ class CategoriaController extends Controller
         try {
             $categoria = Categoria::find($request->id);
 
-            if (count($categoria->subcategorias)>0) {
+            if (count($categoria->subcategorias) > 0) {
                 return response()->json([
                     'success' => false,
                     'message' => 'La categoría no se puede eliminar porque tiene una subcategoría asociada',

@@ -14,7 +14,8 @@
 <!-- NOTE: Busqueda a Reniec -->
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input-load type="number" id="cli_numero_documento" placeholder="Número de Documento" icon="bi-card-list"
-        name="cli_numero_documento" value="{{ $cliente->cli_numero_documento }}" label="Numero de Documento" type="text"/>
+        name="cli_numero_documento" value="{{ $cliente->cli_numero_documento }}" label="Numero de Documento"
+        type="text" />
 </div>
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input type="text" id="cli_nombres" placeholder="Nombres" icon="bi-person-fill" name="cli_nombres"
@@ -31,14 +32,15 @@
 <!-- NOTE: Fin Busqueda a Reniec -->
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input type="text" id="cli_direccion" placeholder="Dirección" icon="bi-geo-alt-fill" name="cli_direccion"
-        value="{{ $cliente->cli_direccion }}"  label="Dirección"/>
+        value="{{ $cliente->cli_direccion }}" label="Dirección" req="{{ false }}" />
 </div>
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input type="text" id="cli_celular" placeholder="Celular" icon="bi-phone-fill" name="cli_celular"
-        value="{{ $cliente->cli_celular }}"  label="Celular"/>
+        value="{{ $cliente->cli_celular }}" label="Celular" req="{{ false }}" />
 </div>
 <div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-select id="dep_id" placeholder="Seleccione Departamento" icon="bi-geo-alt-fill" name="dep_id" label="Departamento">
+    <x-select id="dep_id" placeholder="Seleccione Departamento" icon="bi-geo-alt-fill" name="dep_id"
+        label="Departamento">
         <x-slot name="options">
         </x-slot>
     </x-select>
@@ -62,9 +64,20 @@
             setSelect
         } from "{{ asset('scripts/ciudades.js') }}";
 
-        let dep = {{ $cliente->dep_id ?? '0' }};
-        let pro = {{ $cliente->pro_id ?? '0' }};
-        let dis = {{ $cliente->dis_id ?? '0' }};
+        let dep = 0;
+        let pro = 0;
+        let dis = 0;
+        let isEdit = {{ isset($cliente) ? 'true' : 'false' }};
+        if (isEdit) {
+            dep = {{ $cliente->dep_id ?? '0' }};
+            pro = {{ $cliente->pro_id ?? '0' }};
+            dis = {{ $cliente->dis_id ?? '0' }};
+        } else {
+            dep = {{ old('dep_id') ?? '0' }};
+            pro = {{ old('pro_id') ?? '0' }};
+            dis = {{ old('dis_id') ?? '0' }};
+        }
+
         console.log(dep, pro, dis);
 
         @error('dep_id')
@@ -77,6 +90,7 @@
             dis = {{ old('dis_id') }};
         @enderror
 
+
         if (dep != 0 && pro != 0 && dis != 0) {
             setTimeout(() => {
                 setSelect(dep, pro, dis);
@@ -85,14 +99,17 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-            function messageAlert(message, background) {
+            function messageAlert(message, background, color) {
                 Toastify({
                     text: message,
                     duration: 3000,
                     close: true,
                     gravity: "top",
                     position: "center",
-                    backgroundColor: background,
+                    style: {
+                        background: background,
+                        color: color,
+                    }
                 }).showToast()
             }
 
@@ -100,7 +117,7 @@
                 let tipo = $('#tdo_id').val();
                 let numero = $(this).val();
                 if (tipo == "")
-                    messageAlert("Seleccione un tipo de documento", "#ffc107");
+                    messageAlert("Seleccione un tipo de documento", "#ffc107", "#000");
                 else
                     BuscarDniRuc(tipo, numero);
             });
@@ -125,12 +142,12 @@
                             $('#cli_numero_documento-spinner').addClass('d-none');
                             $('#cli_numero_documento-icon').removeClass('d-none');
                         } else {
-                            messageAlert(data.message, "#ffc107");
+                            messageAlert(data.message, "#ffc107", "#000");
                         }
                     },
                     error: function(data) {
                         console.log(data);
-                        messageAlert("Error al consultar el DNI", "#dc3545");
+                        messageAlert("Error al consultar el DNI", "#dc3545", "#fff");
                     }
                 });
             } else if (numero.length > 0 && numero.length != 8) {

@@ -18,7 +18,7 @@ class ClienteController extends Controller
     public function index()
     {
         $clientes = Cliente::OrderBy('cli_nombres', 'asc')->get();
-        return view('persona.clientes.index', compact('clientes'));
+        return view('tienda.clientes.index', compact('clientes'));
     }
 
     /**
@@ -28,7 +28,7 @@ class ClienteController extends Controller
     {
         $tipoDocumentos = TipoDocumento::all();
         $cliente = new Cliente();
-        return view('persona.clientes.create', compact('tipoDocumentos', 'cliente'));
+        return view('tienda.clientes.create', compact('tipoDocumentos', 'cliente'));
     }
 
     /**
@@ -59,7 +59,7 @@ class ClienteController extends Controller
         $departamento = Departamento::find($provincia->dep_id);
         $cliente->pro_id = $provincia->pro_id;
         $cliente->dep_id = $departamento->dep_id;
-        return view('persona.clientes.show', compact('cliente', 'tipoDocumentos'));
+        return view('tienda.clientes.show', compact('cliente', 'tipoDocumentos'));
     }
 
     /**
@@ -73,7 +73,7 @@ class ClienteController extends Controller
         $departamento = Departamento::find($provincia->dep_id);
         $cliente->pro_id = $provincia->pro_id;
         $cliente->dep_id = $departamento->dep_id;
-        return view('persona.clientes.edit', compact('cliente', 'tipoDocumentos'));
+        return view('tienda.clientes.edit', compact('cliente', 'tipoDocumentos'));
     }
 
     /**
@@ -138,6 +138,32 @@ class ClienteController extends Controller
             'success' => true,
             'message' => 'Se puede eliminar el cliente',
             'status' => 'success'
+        ]);
+    }
+
+    /**
+     * Registra un cliente desde la venta
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function registrar(Request $request)
+    {
+        $this->validate($request, Cliente::$rules);
+        try {
+            DB::beginTransaction();
+            $cliente = Cliente::create($request->all());
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al registrar el cliente'
+            ]);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Cliente registrado correctamente',
+            'cliente' => $cliente
         ]);
     }
 }
