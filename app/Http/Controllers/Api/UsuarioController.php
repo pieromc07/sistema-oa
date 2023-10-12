@@ -7,6 +7,7 @@ use App\Models\Colaborador;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class UsuarioController extends Controller
 {
@@ -16,7 +17,7 @@ class UsuarioController extends Controller
     public function index()
     {
         $usuarios = User::all();
-        return response()->json($usuarios);
+        return Response::json($usuarios);
     }
 
     /**
@@ -51,13 +52,13 @@ class UsuarioController extends Controller
             $user->col_id = $colaborador->col_id;
             $user->save();
             DB::commit();
-            return response()->json([
+            return Response::json([
                 'message' => 'Usuario creado correctamente',
                 'user' => $user
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json([
+            return Response::json([
                 'message' => 'Error al crear usuario',
                 'error' => $e->getMessage()
             ], 500);
@@ -92,7 +93,7 @@ class UsuarioController extends Controller
     public function show(Int $id)
     {
         $user = User::find($id);
-        return response()->json($user->colaborador);
+        return Response::json($user);
     }
 
     /**
@@ -119,13 +120,13 @@ class UsuarioController extends Controller
             $user->usu_contraseña = $contraseña;
             $user->save();
             DB::commit();
-            return response()->json([
+            return Response::json([
                 'message' => 'Usuario actualizado correctamente',
                 'user' => $user
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json([
+            return Response::json([
                 'message' => 'Error al actualizar usuario',
                 'error' => $e->getMessage()
             ], 500);
@@ -143,13 +144,13 @@ class UsuarioController extends Controller
             $user->usu_estado = 0;
             $user->save();
             DB::commit();
-            return response()->json([
+            return Response::json([
                 'message' => 'Usuario eliminado correctamente',
                 'user' => $user
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json([
+            return Response::json([
                 'message' => 'Error al eliminar usuario',
                 'error' => $e->getMessage()
             ], 500);
