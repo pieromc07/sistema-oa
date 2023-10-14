@@ -37,6 +37,9 @@ class Venta extends Model
         'ven_total',
         'ven_subtotal',
         'ven_impuesto',
+        'ven_serie',
+        'ven_numero',
+        'ven_estado',
     ];
 
     /**
@@ -59,6 +62,9 @@ class Venta extends Model
         "ven_total" => "required | numeric | min:0",
         "ven_subtotal" => "required | numeric | min:0",
         "ven_impuesto" => "required | numeric | min:0",
+        "ven_serie" => "required | string | max:4",
+        "ven_numero" => "required | numeric | min:0",
+        "ven_estado" => "required | boolean",
     ];
 
     /**

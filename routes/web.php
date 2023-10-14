@@ -170,31 +170,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('venta/{venta}', [VentaController::class, 'update'])->name('venta.update');
     Route::delete('venta/{venta}', [VentaController::class, 'destroy'])->name('venta.destroy');
     Route::get('venta/correlativo/{serie}', [VentaController::class, 'correlativo'])->name('venta.correlativo');
-    Route::get('prueba', function () {
-        //  En producto generar el codido de barras
-        //  ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        //  1234567890
-        //  con un minimo de 6 caracteres y maximo de 6 caracteres
-        //  y que no se repita para cada producto
-        //  3 letras y 3 numeros
-        $productos = \App\Models\Producto::all();
-        foreach ($productos as $producto) {
-            do	{
-                $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                $numbers = '1234567890';
-                $randomString = '';
-                for ($i = 0; $i < 3; $i++) {
-                    $randomString .= $letters[rand(0, strlen($letters) - 1)];
-                }
-                for ($i = 0; $i < 3; $i++) {
-                    $randomString .= $numbers[rand(0, strlen($numbers) - 1)];
-                }
-              $exist = \App\Models\Producto::where('pro_codigo_barra', $randomString)->first();
-            } while ($exist);
-            $producto->pro_codigo_barra = $randomString;
-            $producto->save();
-        }
-    })->name('prueba');
 });
 
 /**

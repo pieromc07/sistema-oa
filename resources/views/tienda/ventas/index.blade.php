@@ -22,11 +22,12 @@
                         <th colspan="1" class="text-center">ID</th>
                         <th colspan="1" class="text-center">Fecha</th>
                         <th colspan="1" class="text-center">Cliente</th>
+                        <th colspan="1" class="text-center">M. Pago</th>
                         <th colspan="1" class="text-center">Total</th>
                         <th colspan="1" class="text-center">Acciones</th>
                     </x-slot>
                     <x-slot name='slot'>
-                        @foreach ($ventas as $venta )
+                        @foreach ($ventas as $venta)
                             <tr>
                                 <td class="text-center">
                                     {{ $venta->ven_id }}
@@ -39,18 +40,20 @@
                                     {{ $venta->cliente->cli_apellido_materno }}
                                 </td>
                                 <td class="text-center">
+                                    {{ $venta->metodo_pago->met_nombre }}
+                                </td>
+                                <td class="text-center">
                                     {{ $venta->ven_total }}
                                 </td>
                                 <td class="text-center">
                                     <x-link-icon btn="btn-info" icon="bi-eye-fill" title="Ver"
                                         href="{{ route('venta.show', $venta) }}" />
-                                    <x-link-icon btn="btn-warning" icon="bi-pencil-square" title="Editar"
-                                        href="{{ route('venta.edit', $venta->ven_id) }}" />
+                                    {{-- <x-link-icon btn="btn-warning" icon="bi-pencil-square" title="Editar"
+                                        href="{{ route('venta.edit', $venta->ven_id) }}" /> --}}
                                     <x-form-table id="form-delete-{{ $venta }}" method="POST"
                                         action="{{ route('venta.destroy', $venta) }}" role="form">
                                         @method('DELETE')
-                                        <x-button-icon btn="btn-danger" icon="bi-trash-fill" title="Eliminar"
-                                            onclick="deleteItem({{ $venta }})" />
+                                        <x-button-icon btn="btn-danger"  title="Anular Venta" icon="bi-trash-fill" />
                                     </x-form-table>
                                 </td>
                             </tr>
@@ -63,7 +66,4 @@
 @endsection
 
 @push('scripts')
-
 @endpush
-
-

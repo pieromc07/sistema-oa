@@ -9,6 +9,15 @@
 @endpush
 
 @section('content')
+
+    @if (session('success'))
+        <x-alert type="success" message="{{ session('success') }}" />
+    @endif
+
+    @if (session('error'))
+        <x-alert type="danger" message="{{ session('error') }}" />
+    @endif
+
     <div class="card">
         <x-form class="card-body" id="form-venta" action="{{ route('venta.store') }}" method="POST" role="form">
             <div class="row align-items-center">
@@ -22,10 +31,10 @@
                         </x-slot>
                     </x-select>
                 </div>
-                <input type="hidden" name="ven_numero">
+                <input type="hidden" name="ven_numero" id="ven_numero">
                 <div class="col-sm-12 col-md-2 col-lg-2">
                     <x-input id="documento" name="documento" label="Documento" icon="bi-file-earmark-text"
-                        placeholder="NV001" readonly />
+                        placeholder="NV001" />
                 </div>
                 <div class="col-10 col-md-4 col-lg-4">
                     <x-select id="select-cliente" name="cli_id" label="Cliente" placeholder="Seleccione un cliente">
@@ -42,7 +51,7 @@
                 </div>
                 <div class="col-1 col-md-2 col-lg-2 mt-3">
                     <x-button-icon btn="btn-primary btn-sm" icon="bi-plus-circle" title="Nuevo Cliente"
-                        id="btn-nuevo-cliente" />
+                        id="btn-nuevo-cliente" type="button" />
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-4">
                     <x-select id="met_id" name="met_id" label="Metodo de Pago"
@@ -56,14 +65,14 @@
                         </x-slot>
                     </x-select>
                 </div>
-                <div class="col-sm-12 col-md-4 col-lg-4">
+                {{-- <div class="col-sm-12 col-md-4 col-lg-4">
                     <x-select id="his_id" name="his_id" label="Asociar Historia Clinica" placeholder="Historia clinica"
                         req="{{ false }}">
                         <x-slot name="options">
 
                         </x-slot>
                     </x-select>
-                </div>
+                </div> --}}
 
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="row">
@@ -168,10 +177,10 @@
                                 <div class="row mt-3 justify-content-end">
                                     <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-end gap-2">
                                         <x-button id="btn-generar" btn="btn-success btn-block" title="Generar Venta"
-                                            text="Generar Venta" icon="bi-cash-stack" />
+                                            text="Generar Venta" icon="bi-cash-stack"  type="button" />
 
                                         <x-button id="btn-cancelar" btn="btn-danger btn-block" title="Cancelar Venta"
-                                            text="Cancelar Venta" icon="bi-x-circle" />
+                                            text="Cancelar Venta" icon="bi-x-circle"  type="reset" />
                                     </div>
                                 </div>
                             </div>
@@ -208,16 +217,18 @@
 
 @push('scripts')
     <script type="text/javascript">
+        let Detalle = [];
+
         $(document).ready(function() {
             $('#select-cliente').select2();
             $('#his_id').select2();
             $('#producto').select2();
 
-            $('#codigo').on('keyup', function(e) {
+            $('#codigo').on('keyup', (e) => {
                 $('#codigo').trigger('blur');
             });
 
-            $('#ven_serie').on('change', () => {
+            $('#ven_serie').on('change', (e) => {
                 let value = $('#ven_serie').val();
                 $.ajax({
                     url: "{{ url('venta/correlativo') }}/" + value,
@@ -255,7 +266,7 @@
                 });
             });
 
-            $('#form-cliente').on('submit', function(e) {
+            $('#form-cliente').on('submit', (e) => {
                 e.preventDefault();
                 $('#form-cliente .is-invalid').removeClass('is-invalid');
                 $('#form-cliente .invalid-feedback').remove();
@@ -317,7 +328,7 @@
                 }
             });
 
-            $('#codigo').on('blur', function(e) {
+            $('#codigo').on('blur', (e) => {
                 let code = $(this).val();
                 if (code == "") return false;
                 $.ajax({
@@ -354,8 +365,9 @@
                 });
             });
 
-            $('#producto').on('change', function(e) {
-                let id = $(this).val();
+            $('#producto').on('change', (e) => {
+                console.log('change');
+                let id = $('#producto').val();
                 if (id == "") {
                     $('#marca').val('');
                     $('#stock').val('');
@@ -374,8 +386,12 @@
                             $('#stock').val(data.producto.pro_stock);
                             $('#precio').val(data.producto.pro_precio_venta);
                             if ($('#cantidad').val() == 1) {
+                                Detalle.push(parseDetalle(data.producto, 1));
                                 addProducto();
+                            } else {
+                                $('#cantidad').focus();
                             }
+
                         } else {
                             $('#marca').val('');
                             $('#stock').val('');
@@ -398,7 +414,46 @@
                     }
                 });
             });
+
+            $('#btn-generar').on('click', (e) => {
+                (validarCampos()) ? $('#form-venta').submit(): false;
+            });
         });
+
+        function validarCampos() {
+            $('#form-venta .is-invalid').removeClass('is-invalid');
+            $('#form-venta .invalid-feedback').remove();
+            let tco = $('#ven_serie').val();
+            let cli = $('#select-cliente').val();
+            let met = $('#met_id').val();
+            let his = $('#his_id').val();
+            let doc = $('#documento').val();
+            let num = $('#ven_numero').val();
+
+            if (tco == "") {
+                messageAlert("Seleccione un tipo de comprobante", "#ffc107", "#000");
+                inputError('#ven_serie', 'Seleccione un tipo de comprobante');
+                inputError('#documento', 'Documento es requerido');
+                $('#ven_serie').focus();
+                return false;
+            } else if (cli == "") {
+                messageAlert("Seleccione un cliente", "#ffc107", "#000");
+                inputError('#select-cliente', 'Seleccione un cliente');
+                $('#select-cliente').focus();
+                return false;
+            } else if (met == "") {
+                messageAlert("Seleccione un metodo de pago", "#ffc107", "#000");
+                inputError('#met_id', 'Seleccione un metodo de pago');
+                $('#met_id').focus();
+                return false;
+            }
+            return true;
+        }
+
+        function inputError(id, message) {
+            $(id).addClass('is-invalid');
+            $(id).parent().append('<div class="invalid-feedback">' + message + '</div>');
+        }
 
         function messageAlert(message, background, color) {
             Toastify({
@@ -412,6 +467,20 @@
                     color: color,
                 }
             }).showToast()
+        }
+
+        function parseDetalle(producto, cantidad) {
+            return {
+                pro_id: producto.pro_id,
+                pro_codigo_barra: producto.pro_codigo_barra,
+                pro_nombre: producto.pro_nombre,
+                pro_precio_venta: producto.pro_precio_venta,
+                pro_stock: producto.pro_stock,
+                cantidad: cantidad,
+                subtotal: producto.pro_precio_venta * cantidad,
+                impuesto: (producto.pro_precio_venta * cantidad) * 0.18,
+                total: (producto.pro_precio_venta * cantidad) + ((producto.pro_precio_venta * cantidad) * 0.18)
+            }
         }
 
         function deleteProducto(codigo) {
@@ -479,9 +548,12 @@
                     $('#fila-' + codigo).find('td:eq(4)').text((sub + subtotal).toFixed(2));
                 } else {
                     let fila = `<tr id="fila-${codigo}">
+                                    <input type="hidden" name="codigos[]" value="${codigo}">
                                     <td>${codigo}</td>
                                     <td>${producto}</td>
+                                    <input type="hidden" name="cantidades[]" value="${cantidad}">
                                     <td>${cantidad}</td>
+                                    <input type="hidden" name="precios[]" value="${precio}">
                                     <td>
                                         <input type="number" class="form-control form-control-sm" value="${precio}">
                                     </td>

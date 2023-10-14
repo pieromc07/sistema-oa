@@ -139,8 +139,8 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="{{ route('cliente.index') }}" class="menu-link">
-                                    <div data-i18n="Clientes">Clientes</div>
+                                <a href="{{ route('venta.create') }}" class="menu-link">
+                                    <div data-i18n="Ventas">Nueva Venta</div>
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -149,8 +149,8 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{ route('venta.create') }}" class="menu-link">
-                                    <div data-i18n="Ventas">Nueva Venta</div>
+                                <a href="{{ route('cliente.index') }}" class="menu-link">
+                                    <div data-i18n="Clientes">Clientes</div>
                                 </a>
                             </li>
                         </ul>

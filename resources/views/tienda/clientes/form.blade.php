@@ -150,6 +150,29 @@
                         messageAlert("Error al consultar el DNI", "#dc3545", "#fff");
                     }
                 });
+            }else if (tipo == 2 && numero.length == 11){
+                $.ajax({
+                    url: URL + 'ruc/' + numero + '?token=' + TOKEN,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.success) {
+                            console.log(data);
+                            $('#cli_nombres').val(data.razonSocial);
+                            $('#cli_apellido_paterno').val('');
+                            $('#cli_apellido_materno').val('');
+                            $('#cli_numero_documento-spinner').addClass('d-none');
+                            $('#cli_numero_documento-icon').removeClass('d-none');
+                        } else {
+                            messageAlert(data.message, "#ffc107", "#000");
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                        messageAlert("Error al consultar el RUC", "#dc3545", "#fff");
+                    }
+                });
+
             } else if (numero.length > 0 && numero.length != 8) {
                 $('#cli_nombres').val('');
                 $('#cli_apellido_paterno').val('');
