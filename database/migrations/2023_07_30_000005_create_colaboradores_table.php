@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('colaboradores', function (Blueprint $table) {
             $table->increments('col_id');
-            $table->string('col_apellido_paterno');
-            $table->string('col_apellido_materno');
-            $table->string('col_nombres');
+            $table->string('col_nombre_completo');
             $table->unsignedInteger('tdo_id');
             $table->string('col_numero_documento');
             $table->string('col_direccion')->nullable();

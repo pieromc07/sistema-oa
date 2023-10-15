@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model
+class Horario extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Categoria extends Model
      * @var string
      */
 
-    protected $table = 'categorias';
+    protected $table = 'horarios';
 
     /**
      * The primary key associated with the table.
@@ -23,7 +23,7 @@ class Categoria extends Model
      * @var int
      */
 
-    protected $primaryKey = 'cat_id';
+    protected $primaryKey = 'hor_id';
 
     /**
      * The attributes that are mass assignable.
@@ -32,8 +32,9 @@ class Categoria extends Model
      */
 
     protected $fillable = [
-        'cat_nombre',
-        'tic_id'
+        'hor_inicio',
+        'hor_fin',
+        'hor_formato'
     ];
 
     /**
@@ -41,29 +42,24 @@ class Categoria extends Model
      *
      * @var bool
      */
+
     public $timestamps = false;
 
     /**
      *  Rules for validation
      */
+
     public static $rules = [
-        "cat_nombre" => "required | min:2 | max:30 | unique:categorias",
-        "tic_id" => "required",
+        "hor_inicio" => "required | min:2 | max:30 | unique:horarios",
+        "hor_fin" => "required | min:2 | max:30 | unique:horarios",
     ];
 
     /**
-     * Get the tipo_categorias that owns the categorias.
+     * Get the citas that owns the horarios.
      */
-    public function tipo_categorias()
-    {
-        return $this->belongsTo(TipoCategoria::class, 'tic_id', 'tic_id');
-    }
 
-    /**
-     * Get the productos for the categorias.
-     */
-    public function productos()
+    public function citas()
     {
-        return $this->hasMany(Producto::class, 'cat_id', 'cat_id');
+        return $this->hasMany(Cita::class, 'hor_id', 'hor_id');
     }
 }

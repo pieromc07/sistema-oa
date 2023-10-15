@@ -18,16 +18,8 @@
         type="text" />
 </div>
 <div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-input type="text" id="col_nombres" placeholder="Nombres" icon="bi-person-fill" name="col_nombres"
-        value="{{ $colaborador->col_nombres }}" />
-</div>
-<div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-input type="text" id="col_apellido_paterno" placeholder="Apellido Paterno" icon="bi-person-fill"
-        name="col_apellido_paterno" value="{{ $colaborador->col_apellido_paterno }}" />
-</div>
-<div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-input type="text" id="col_apellido_materno" placeholder="Apellido Materno" icon="bi-person-fill"
-        name="col_apellido_materno" value="{{ $colaborador->col_apellido_materno }}" />
+    <x-input type="text" id="col_nombre_completo" placeholder="Nombres" icon="bi-person-fill"
+        name="col_nombre_completo" value="{{ $colaborador->col_nombre_completo }}" />
 </div>
 <!-- NOTE: Fin Busqueda a Reniec -->
 <div class="col-xs-12 col-sm-12 col-lg-6">
@@ -125,40 +117,62 @@
         // NOTE: Funcion para buscar en la API de Reniec
         function BuscarDniRuc(tipo, numero) {
             const TOKEN =
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InBpZXJvMDcxNi5tY0BnbWFpbC5jb20ifQ.C0uofV68CocHAw1ZAnOb0zua8-DdPDStiUuuTcas0tI';
-            const URL = 'https://dniruc.apisperu.com/api/v1/';
+                'I5Q2isdGve4xgTW53inHchckBvpTNnWeLaiDmN4isvuriO8cPAMwriqz5F1U';
+            const URL = 'https://api.migo.pe/api/v1/';
             if (tipo == 1 && numero.length == 8) {
                 $.ajax({
-                    url: URL + 'dni/' + numero + '?token=' + TOKEN,
-                    type: 'GET',
+                    url: URL + 'dni',
+                    type: 'POST',
                     dataType: 'JSON',
+                    data: {
+                        dni: numero,
+                        token: TOKEN
+                    },
                     success: function(data) {
                         if (data.success) {
-                            console.log(data);
-                            $('#col_nombres').val(data.nombres);
-                            $('#col_apellido_paterno').val(data.apellidoPaterno);
-                            $('#col_apellido_materno').val(data.apellidoMaterno);
+                            $('#col_nombre_completo').val(data.nombre);
                             $('#col_numero_documento-spinner').addClass('d-none');
                             $('#col_numero_documento-icon').removeClass('d-none');
                         } else {
-                            messageAlert(data.message, "#ffc107");
+                            messageAlert(data.message, "#ffc107", "#000");
                         }
                     },
                     error: function(data) {
                         console.log(data);
-                        messageAlert("Error al consultar el DNI", "#dc3545");
+                        messageAlert("Error al consultar el DNI", "#dc3545", "#fff");
                     }
                 });
+            } else if (tipo == 2 && numero.length == 11) {
+                $.ajax({
+                    url: URL + 'ruc',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        ruc: numero,
+                        token: TOKEN
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            $('#col_nombre_completo').val(data.nombre_o_razon_social);
+                            $('#col_direccion').val(data.direccion);
+                            $('#col_numero_documento-spinner').addClass('d-none');
+                            $('#col_numero_documento-icon').removeClass('d-none');
+                        } else {
+                            messageAlert(data.message, "#ffc107", "#000");
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                        messageAlert("Error al consultar el RUC", "#dc3545", "#fff");
+                    }
+                });
+
             } else if (numero.length > 0 && numero.length != 8) {
-                $('#col_nombres').val('');
-                $('#col_apellido_paterno').val('');
-                $('#col_apellido_materno').val('');
+                $('#col_nombre_completo').val('');
                 $('#col_numero_documento-icon').addClass('d-none');
                 $('#col_numero_documento-spinner').removeClass('d-none');
             } else if (numero.length === 0) {
-                $('#col_nombres').val('');
-                $('#col_apellido_paterno').val('');
-                $('#col_apellido_materno').val('');
+                $('#col_nombre_completo').val('');
                 $('#col_numero_documento-spinner').addClass('d-none');
                 $('#col_numero_documento-icon').removeClass('d-none');
             }

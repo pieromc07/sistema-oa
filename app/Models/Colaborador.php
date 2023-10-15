@@ -32,9 +32,7 @@ class Colaborador extends Model
      */
 
     protected $fillable = [
-        'col_apellido_paterno',
-        'col_apellido_materno',
-        'col_nombres',
+        'col_nombre_completo',
         'tdo_id',
         'col_numero_documento',
         'col_direccion',
@@ -56,9 +54,7 @@ class Colaborador extends Model
     public static $rules = [
         "tdo_id" => "required",
         "col_numero_documento" => "required | min:8 | unique:colaboradores",
-        "col_nombres" => "required | max:255",
-        "col_apellido_paterno" => "required | max:255",
-        "col_apellido_materno" => "required | max:255",
+        "col_nombre_completo" => "required | max:300",
         "col_direccion" => "nullable | max:255",
         "col_celular" => "nullable | max:9 | min:9",
         "dep_id" => "required",
@@ -89,5 +85,10 @@ class Colaborador extends Model
     public function puesto()
     {
         return $this->belongsTo(Puesto::class, 'pue_id', 'pue_id');
+    }
+
+    public function citas()
+    {
+        return $this->hasMany(Cita::class, 'col_id', 'col_id');
     }
 }

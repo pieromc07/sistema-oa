@@ -77,9 +77,7 @@ class DatabaseSeeder extends Seeder
          * COLABORADORES
          */
         \App\Models\Colaborador::create([
-            'col_apellido_materno' => 'CARPIO',
-            'col_apellido_paterno' => 'MERINO',
-            'col_nombres' => 'CARLOS PIERO JUNIOR',
+            'col_nombre_completo' => 'MERINO CARPIO CARLOS PIERO JUNIOR',
             'tdo_id' => 1,
             'col_numero_documento' => '73951068',
             'col_direccion' => 'LAS PALMERAS 123',
@@ -90,9 +88,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Colaborador::create([
-            'col_apellido_paterno' => 'TANTALEAN',
-            'col_apellido_materno' => 'GIL',
-            'col_nombres' => 'ELIAS SAMUEL',
+            'col_nombre_completo' => 'TANTALEAN GIL ELIAS SAMUEL',
             'tdo_id' => 1,
             'col_numero_documento' => '70674955',
             'col_direccion' => 'INDENDENCIA 123',

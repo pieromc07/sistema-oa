@@ -31,9 +31,7 @@ class Cliente extends Model
      */
 
     protected $fillable = [
-        'cli_apellido_paterno',
-        'cli_apellido_materno',
-        'cli_nombres',
+        'cli_nombre_completo',
         'tdo_id',
         'cli_numero_documento',
         'cli_direccion',
@@ -55,9 +53,7 @@ class Cliente extends Model
     public static $rules = [
         "tdo_id" => "required",
         "cli_numero_documento" => "required | min:8 | unique:clientes",
-        "cli_nombres" => "required | max:255",
-        "cli_apellido_paterno" => "required | max:255",
-        "cli_apellido_materno" => "required | max:255",
+        "cli_nombre_completo" => "required | max:300",
         "cli_direccion" => "max:255",
         "cli_celular" => "max:255",
         "dis_id" => "required",
@@ -83,9 +79,17 @@ class Cliente extends Model
      * Get the ventas for the cliente.
      */
 
-    public function ventas(){
+    public function ventas()
+    {
         return $this->hasMany(Venta::class, 'cli_id', 'cli_id');
     }
 
+    /**
+     * Get the citas for the cliente.
+     */
 
+    public function citas()
+    {
+        return $this->hasMany(Cita::class, 'cli_id', 'cli_id');
+    }
 }

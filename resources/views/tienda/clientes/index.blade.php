@@ -31,8 +31,7 @@
                     <x-slot name="header">
                         <th colspan="1" class="text-center">ID</th>
                         <th colspan="1" class="text-center">Documento</th>
-                        <th colspan="1" class="text-center">Nombre</th>
-                        <th colspan="1" class="text-center">Apellido</th>
+                        <th colspan="1" class="text-center">Nombre Completo</th>
                         <th colspan="1" class="text-center">Acciones</th>
                     </x-slot>
                     <x-slot name='slot'>
@@ -45,10 +44,7 @@
                                     {{ $cliente->cli_numero_documento }}
                                 </td>
                                 <td class="text-center">
-                                    {{ $cliente->cli_nombres }}
-                                </td>
-                                <td class="text-center">
-                                    {{ $cliente->cli_apellido_paterno }} {{ $cliente->cli_apellido_materno }}
+                                    {{ $cliente->cli_nombre_completo }}
                                 </td>
                                 <td class="text-center">
                                     <x-link-icon btn="btn-info" icon="bi-eye-fill" title="Ver"

@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CitaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ColaboradorController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\PermisosController;
@@ -170,6 +172,25 @@ Route::middleware(['auth'])->group(function () {
     Route::put('venta/{venta}', [VentaController::class, 'update'])->name('venta.update');
     Route::delete('venta/{venta}', [VentaController::class, 'destroy'])->name('venta.destroy');
     Route::get('venta/correlativo/{serie}', [VentaController::class, 'correlativo'])->name('venta.correlativo');
+
+    //TODO: Rutas de Citas
+    Route::get('cita', [CitaController::class, 'index'])->name('cita.index');
+    Route::get('cita/create', [CitaController::class, 'create'])->name('cita.create');
+    Route::post('cita', [CitaController::class, 'store'])->name('cita.store');
+    Route::get('cita/{cita}', [CitaController::class, 'show'])->name('cita.show');
+    Route::get('cita/{cita}/edit', [CitaController::class, 'edit'])->name('cita.edit');
+    Route::put('cita/{cita}', [CitaController::class, 'update'])->name('cita.update');
+    Route::delete('cita/{cita}', [CitaController::class, 'destroy'])->name('cita.destroy');
+
+    //TODO: Rutas de Horarios
+    Route::get('horario', [HorarioController::class, 'index'])->name('horario.index');
+    Route::get('horario/create', [HorarioController::class, 'create'])->name('horario.create');
+    Route::post('horario', [HorarioController::class, 'store'])->name('horario.store');
+    Route::get('horario/{horario}', [HorarioController::class, 'show'])->name('horario.show');
+    Route::get('horario/{horario}/edit', [HorarioController::class, 'edit'])->name('horario.edit');
+    Route::put('horario/{horario}', [HorarioController::class, 'update'])->name('horario.update');
+    Route::delete('horario/{horario}', [HorarioController::class, 'destroy'])->name('horario.destroy');
+    Route::post('horario/verificarEliminar', [HorarioController::class, 'verificarEliminar'])->name('horario.verificarEliminar');
 });
 
 /**
@@ -180,3 +201,22 @@ Route::get('/departamentos', [PublicaController::class, 'departamentos'])->name(
 Route::get('/provincias', [PublicaController::class, 'provincias'])->name('provincias');
 Route::get('/distritos', [PublicaController::class, 'distritos'])->name('distritos');
 Route::get('/bucarPorDistrito', [PublicaController::class, 'bucarPorDistrito'])->name('bucarPorDistrito');
+Route::get('generar/codigo', function () {
+    $productos = \App\Models\Producto::all();
+    foreach ($productos as $producto) {
+        do {
+            $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $numbers = '1234567890';
+            $randomString = '';
+            for ($i = 0; $i < 3; $i++) {
+                $randomString .= $letters[rand(0, strlen($letters) - 1)];
+            }
+            for ($i = 0; $i < 3; $i++) {
+                $randomString .= $numbers[rand(0, strlen($numbers) - 1)];
+            }
+            $exist = \App\Models\Producto::where('pro_codigo_barra', $randomString)->first();
+        } while ($exist);
+        $producto->pro_codigo_barra = $randomString;
+        $producto->save();
+    }
+})->name('generar.codigo');

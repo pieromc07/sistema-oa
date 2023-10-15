@@ -18,17 +18,10 @@
         type="text" />
 </div>
 <div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-input type="text" id="cli_nombres" placeholder="Nombres" icon="bi-person-fill" name="cli_nombres"
-        value="{{ $cliente->cli_nombres }}" />
+    <x-input type="text" id="cli_nombre_completo" placeholder="Nombre Completo" icon="bi-person-fill"
+        name="cli_nombre_completo" value="{{ $cliente->cli_nombre_completo }}" />
 </div>
-<div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-input type="text" id="cli_apellido_paterno" placeholder="Apellido Paterno" icon="bi-person-fill"
-        name="cli_apellido_paterno" value="{{ $cliente->cli_apellido_paterno }}" />
-</div>
-<div class="col-xs-12 col-sm-12 col-lg-6">
-    <x-input type="text" id="cli_apellido_materno" placeholder="Apellido Materno" icon="bi-person-fill"
-        name="cli_apellido_materno" value="{{ $cliente->cli_apellido_materno }}" />
-</div>
+
 <!-- NOTE: Fin Busqueda a Reniec -->
 <div class="col-xs-12 col-sm-12 col-lg-6">
     <x-input type="text" id="cli_direccion" placeholder="Dirección" icon="bi-geo-alt-fill" name="cli_direccion"
@@ -99,19 +92,7 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-            function messageAlert(message, background, color) {
-                Toastify({
-                    text: message,
-                    duration: 3000,
-                    close: true,
-                    gravity: "top",
-                    position: "center",
-                    style: {
-                        background: background,
-                        color: color,
-                    }
-                }).showToast()
-            }
+
 
             $('#cli_numero_documento').keyup(function() {
                 let tipo = $('#tdo_id').val();
@@ -123,22 +104,37 @@
             });
         });
 
+        function messageAlert(message, background, color) {
+            Toastify({
+                text: message,
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                style: {
+                    background: background,
+                    color: color,
+                }
+            }).showToast()
+        }
+
         // NOTE: Funcion para buscar en la API de Reniec
         function BuscarDniRuc(tipo, numero) {
             const TOKEN =
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InBpZXJvMDcxNi5tY0BnbWFpbC5jb20ifQ.C0uofV68CocHAw1ZAnOb0zua8-DdPDStiUuuTcas0tI';
-            const URL = 'https://dniruc.apisperu.com/api/v1/';
+                'I5Q2isdGve4xgTW53inHchckBvpTNnWeLaiDmN4isvuriO8cPAMwriqz5F1U';
+            const URL = 'https://api.migo.pe/api/v1/';
             if (tipo == 1 && numero.length == 8) {
                 $.ajax({
-                    url: URL + 'dni/' + numero + '?token=' + TOKEN,
-                    type: 'GET',
+                    url: URL + 'dni',
+                    type: 'POST',
                     dataType: 'JSON',
+                    data: {
+                        dni: numero,
+                        token: TOKEN
+                    },
                     success: function(data) {
                         if (data.success) {
-                            console.log(data);
-                            $('#cli_nombres').val(data.nombres);
-                            $('#cli_apellido_paterno').val(data.apellidoPaterno);
-                            $('#cli_apellido_materno').val(data.apellidoMaterno);
+                            $('#cli_nombre_completo').val(data.nombre);
                             $('#cli_numero_documento-spinner').addClass('d-none');
                             $('#cli_numero_documento-icon').removeClass('d-none');
                         } else {
@@ -150,17 +146,19 @@
                         messageAlert("Error al consultar el DNI", "#dc3545", "#fff");
                     }
                 });
-            }else if (tipo == 2 && numero.length == 11){
+            } else if (tipo == 2 && numero.length == 11) {
                 $.ajax({
-                    url: URL + 'ruc/' + numero + '?token=' + TOKEN,
-                    type: 'GET',
+                    url: URL + 'ruc',
+                    type: 'POST',
                     dataType: 'JSON',
+                    data: {
+                        ruc: numero,
+                        token: TOKEN
+                    },
                     success: function(data) {
                         if (data.success) {
-                            console.log(data);
-                            $('#cli_nombres').val(data.razonSocial);
-                            $('#cli_apellido_paterno').val('');
-                            $('#cli_apellido_materno').val('');
+                            $('#cli_nombre_completo').val(data.nombre_o_razon_social);
+                            $('#cli_direccion').val(data.direccion);
                             $('#cli_numero_documento-spinner').addClass('d-none');
                             $('#cli_numero_documento-icon').removeClass('d-none');
                         } else {
@@ -174,15 +172,11 @@
                 });
 
             } else if (numero.length > 0 && numero.length != 8) {
-                $('#cli_nombres').val('');
-                $('#cli_apellido_paterno').val('');
-                $('#cli_apellido_materno').val('');
+                $('#cli_nombre_completo').val('');
                 $('#cli_numero_documento-icon').addClass('d-none');
                 $('#cli_numero_documento-spinner').removeClass('d-none');
             } else if (numero.length === 0) {
-                $('#cli_nombres').val('');
-                $('#cli_apellido_paterno').val('');
-                $('#cli_apellido_materno').val('');
+                $('#cli_nombre_completo').val('');
                 $('#cli_numero_documento-spinner').addClass('d-none');
                 $('#cli_numero_documento-icon').removeClass('d-none');
             }

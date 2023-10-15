@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->increments('cli_id');
-            $table->string('cli_apellido_paterno');
-            $table->string('cli_apellido_materno');
-            $table->string('cli_nombres');
+            $table->string('cli_nombre_completo');
             $table->unsignedInteger('tdo_id');
             $table->string('cli_numero_documento');
             $table->string('cli_direccion')->nullable();

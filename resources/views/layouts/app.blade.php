@@ -95,18 +95,107 @@
                     </li>
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-store"></i>
+                            <div data-i18n="Tienda">Tienda</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{{ route('venta.create') }}" class="menu-link">
+                                    <div data-i18n="Ventas">Nueva Venta</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('venta.index') }}" class="menu-link">
+                                    <div data-i18n="Lista de Ventas">Listado de Ventas</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('cliente.index') }}" class="menu-link">
+                                    <div data-i18n="Clientes">Clientes</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- Citas Medicas --}}
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-calendar"></i>
+                            <div data-i18n="Citas Medicas">Citas Medicas</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{{ route('cita.create') }}" class="menu-link">
+                                    <div data-i18n="Nueva Cita">Nueva Cita</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('cita.index') }}" class="menu-link">
+                                    <div data-i18n="Lista de Citas">Listado de Citas</div>
+                                </a>
+                            </li>
+                            {{-- <li class="menu-item">
+                                <a href="{{ route('paciente.index') }}" class="menu-link">
+                                    <div data-i18n="Pacientes">Pacientes</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('medico.index') }}" class="menu-link">
+                                    <div data-i18n="Medicos">Medicos</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('especialidad.index') }}" class="menu-link">
+                                    <div data-i18n="Especialidades">Especialidades</div>
+                                </a>
+                            </li> --}}
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-package"></i>
+                            <div data-i18n="Productos">Productos</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{{ route('tipocategoria.index') }}" class="menu-link">
+                                    <div data-i18n="Tipo Categorias">Tipo Categorias</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('categoria.index') }}" class="menu-link">
+                                    <div data-i18n="Categorias">Categorias</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('marca.index') }}" class="menu-link">
+                                    <div data-i18n="Marcas">Marcas</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('producto.index') }}" class="menu-link">
+                                    <div data-i18n="Productos">Productos</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bxs-user-badge"></i>
                             <div data-i18n="Seguridad">Personal</div>
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
                                 <a href="{{ route('colaborador.index') }}" class="menu-link">
-                                    <div data-i18n="Roles">Colaboradores</div>
+                                    <div data-i18n="Colaboradores">Colaboradores</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{{ route('horario.index') }}" class="menu-link">
+                                    <div data-i18n="Horarios">Horarios</div>
                                 </a>
                             </li>
                         </ul>
                     </li>
-
                     @can('seguridad.modulo')
                         <li class="menu-item">
                             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -132,57 +221,6 @@
                             </ul>
                         </li>
                     @endcan
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-store"></i>
-                            <div data-i18n="Seguridad">Tienda</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="{{ route('venta.create') }}" class="menu-link">
-                                    <div data-i18n="Ventas">Nueva Venta</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="{{ route('venta.index') }}" class="menu-link">
-                                    <div data-i18n="Ventas">Listado de Ventas</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="{{ route('cliente.index') }}" class="menu-link">
-                                    <div data-i18n="Clientes">Clientes</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-package"></i>
-                            <div data-i18n="Seguridad">Productos</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="{{ route('tipocategoria.index') }}" class="menu-link">
-                                    <div data-i18n="Tipo Categorias">Tipo Categorias</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="{{ route('categoria.index') }}" class="menu-link">
-                                    <div data-i18n="Categorias">Categorias</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="{{ route('marca.index') }}" class="menu-link">
-                                    <div data-i18n="Marcas">Marcas</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="{{ route('producto.index') }}" class="menu-link">
-                                    <div data-i18n="Productos">Productos</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->
