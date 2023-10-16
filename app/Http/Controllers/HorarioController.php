@@ -123,6 +123,10 @@ class HorarioController extends Controller
 
     public function horarios($fecha)
     {
+        if ($fecha == 'null') {
+            $fecha = date('Y-m-d');
+        }
+        
         $date = date('Y-m-d', strtotime($fecha));
         DB::statement('CREATE TEMPORARY TABLE horarios_optometras (hoo_id int primary key auto_increment, hor_id int, hoo_fecha date, col_id int)');
         $horarios = Horario::all();
