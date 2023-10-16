@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cita;
+use App\Models\Colaborador;
 use Illuminate\Http\Request;
 
 class CitaController extends Controller
@@ -12,9 +13,7 @@ class CitaController extends Controller
      */
     public function index()
     {
-        $citas = Cita::with(['clientes', 'colaboradores', 'horarios'])->orderBy('cit_fecha', 'desc')->get();
 
-        dd($citas->toArray());
     }
 
     /**
@@ -22,7 +21,9 @@ class CitaController extends Controller
      */
     public function create()
     {
-        //
+        $cita = new Cita();
+        $colaboradores = Colaborador::where('col_isOptometra', 1)->get();
+        return view('cita.create', compact('cita', 'colaboradores'));
     }
 
     /**

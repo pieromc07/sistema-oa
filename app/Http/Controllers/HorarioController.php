@@ -145,13 +145,17 @@ class HorarioController extends Controller
 
         $citas = Cita::where('cit_fecha', $date)->where('cit_estado', '=', true)->get();
 
+        $response = [];
         foreach ($citas as $cita) {
             foreach ($horarios as $key => $horario) {
                 if ($cita->hor_id == $horario->hor_id && $cita->col_id == $horario->col_id) {
-                    unset($horarios[$key]);
+                  
+                }else{
+                    array_push($response, $horario);
                 }
             }
         }
-        return response()->json(['success' => true, 'horariosOptometras' => $horarios]);
+
+        return response()->json($response);
     }
 }
