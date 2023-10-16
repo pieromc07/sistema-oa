@@ -123,17 +123,19 @@ class HorarioController extends Controller
 
     public function horarios($fecha)
     {
+
         if ($fecha == NULL) {
             $fecha = date('Y-m-d');
         }
         // Zona horaria de Perú
-        $time = date('H:i:s',time() + (3600 * (-5)));
+        // $time = date('H:i:s',time() + (3600 * (-5)));
 
         if($fecha < date('Y-m-d')){
             return response()->json([]);
         }
 
         $date = date('Y-m-d', strtotime($fecha));
+       
         DB::statement('CREATE TEMPORARY TABLE horarios_optometras (hoo_id int primary key auto_increment, hor_id int, hoo_fecha date, col_id int)');
         $horarios = Horario::all();
         $colaboradores = Colaborador::where('col_isOptometra', true)->get();
@@ -142,10 +144,12 @@ class HorarioController extends Controller
                 DB::insert('INSERT INTO horarios_optometras (hor_id, hoo_fecha, col_id) VALUES (?, ?, ?)', [$horario->hor_id, $date, $colaborador->col_id]);
             }
         }
-        if($fecha == date('Y-m-d'))
+
+        if($date == date('Y-m-d')){
+            $time = date('H:i:s',time() + (3600 * (-5)));
             $horarios = DB::select('SELECT col.col_id,  hor.hor_id, hoo.hoo_fecha AS fecha,  TIME_FORMAT(hor.hor_inicio, "%h:%i %p") AS inicio, TIME_FORMAT(hor.hor_fin, "%h:%i %p") AS fin, CONCAT(col.col_nombre_completo) AS optometra FROM horarios_optometras AS hoo INNER JOIN horarios AS hor ON hoo.hor_id = hor.hor_id INNER JOIN colaboradores AS col ON hoo.col_id = col.col_id WHERE hoo_fecha =
             ? AND hor.hor_inicio >= ?', [$date,  $time]);
-        else
+        }else
             $horarios = DB::select('SELECT col.col_id,  hor.hor_id, hoo.hoo_fecha AS fecha,  TIME_FORMAT(hor.hor_inicio, "%h:%i %p") AS inicio, TIME_FORMAT(hor.hor_fin, "%h:%i %p") AS fin, CONCAT(col.col_nombre_completo) AS optometra FROM horarios_optometras AS hoo INNER JOIN horarios AS hor ON hoo.hor_id = hor.hor_id INNER JOIN colaboradores AS col ON hoo.col_id = col.col_id WHERE hoo_fecha =
             ?', [$date]);
 
