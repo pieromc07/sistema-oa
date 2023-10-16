@@ -142,9 +142,12 @@ class HorarioController extends Controller
                 DB::insert('INSERT INTO horarios_optometras (hor_id, hoo_fecha, col_id) VALUES (?, ?, ?)', [$horario->hor_id, $date, $colaborador->col_id]);
             }
         }
-
-        $horarios = DB::select('SELECT col.col_id,  hor.hor_id, hoo.hoo_fecha AS fecha,  TIME_FORMAT(hor.hor_inicio, "%h:%i %p") AS inicio, TIME_FORMAT(hor.hor_fin, "%h:%i %p") AS fin, CONCAT(col.col_nombre_completo) AS optometra FROM horarios_optometras AS hoo INNER JOIN horarios AS hor ON hoo.hor_id = hor.hor_id INNER JOIN colaboradores AS col ON hoo.col_id = col.col_id WHERE hoo_fecha =
-        ? AND hor.hor_inicio >= ?', [$date,  $time]);
+        if($fecha == date('Y-m-d'))
+            $horarios = DB::select('SELECT col.col_id,  hor.hor_id, hoo.hoo_fecha AS fecha,  TIME_FORMAT(hor.hor_inicio, "%h:%i %p") AS inicio, TIME_FORMAT(hor.hor_fin, "%h:%i %p") AS fin, CONCAT(col.col_nombre_completo) AS optometra FROM horarios_optometras AS hoo INNER JOIN horarios AS hor ON hoo.hor_id = hor.hor_id INNER JOIN colaboradores AS col ON hoo.col_id = col.col_id WHERE hoo_fecha =
+            ? AND hor.hor_inicio >= ?', [$date,  $time]);
+        else
+            $horarios = DB::select('SELECT col.col_id,  hor.hor_id, hoo.hoo_fecha AS fecha,  TIME_FORMAT(hor.hor_inicio, "%h:%i %p") AS inicio, TIME_FORMAT(hor.hor_fin, "%h:%i %p") AS fin, CONCAT(col.col_nombre_completo) AS optometra FROM horarios_optometras AS hoo INNER JOIN horarios AS hor ON hoo.hor_id = hor.hor_id INNER JOIN colaboradores AS col ON hoo.col_id = col.col_id WHERE hoo_fecha =
+            ?', [$date]);
 
         $citas = Cita::where('cit_fecha', $date)->where('cit_estado', '=', true)->get();
 
