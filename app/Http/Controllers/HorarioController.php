@@ -133,9 +133,11 @@ class HorarioController extends Controller
             }
         }
 
-        $horarios = DB::select('SELECT col.col_id,  hor.hor_id, hoo.hoo_fecha AS fecha,  TIME_FORMAT(hor.hor_inicio, "%h:%i %p") AS inicio, TIME_FORMAT(hor.hor_fin, "%h:%i %p") AS fin, CONCAT(col.col_nombres, " ", col.col_apellido_paterno, " ", col.col_apellido_materno) AS optometra FROM horarios_optometras AS hoo INNER JOIN horarios AS hor ON hoo.hor_id = hor.hor_id INNER JOIN colaboradores AS col ON hoo.col_id = col.col_id WHERE hoo_fecha =
+        $horarios = DB::select('SELECT col.col_id,  hor.hor_id, hoo.hoo_fecha AS fecha,  TIME_FORMAT(hor.hor_inicio, "%h:%i %p") AS inicio, TIME_FORMAT(hor.hor_fin, "%h:%i %p") AS fin, CONCAT(col.col_nombre_completo) AS optometra FROM horarios_optometras AS hoo INNER JOIN horarios AS hor ON hoo.hor_id = hor.hor_id INNER JOIN colaboradores AS col ON hoo.col_id = col.col_id WHERE hoo_fecha =
         ?', [$date]);
-        $citas = Cita::where('cit_fecha', $date, 'AND', 'cit_estado', '<>', false)->get();
+
+        $citas = Cita::where('cit_fecha', $date)->where('cit_estado', '=', true)->get();
+
         foreach ($citas as $cita) {
             foreach ($horarios as $key => $horario) {
                 if ($cita->hor_id == $horario->hor_id && $cita->col_id == $horario->col_id) {

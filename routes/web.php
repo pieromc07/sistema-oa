@@ -219,4 +219,5 @@ Route::get('generar/codigo', function () {
         $producto->pro_codigo_barra = $randomString;
         $producto->save();
     }
+    return redirect()->route('producto.index');
 })->name('generar.codigo');

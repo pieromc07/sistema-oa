@@ -14,31 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        /**
-         * DEPARTAMENTOS
-         */
-        \App\Models\Departamento::create([
-            'dep_nombre' => 'LA LIBERTAD'
-        ]);
-
-        /**
-         * PROVINCIAS
-         */
-
-        \App\Models\Provincia::create([
-            'pro_nombre' => 'PACASMAYO',
-            'dep_id' => 1
-        ]);
-
-        /**
-         * DISTRITOS
-         */
-
-        \App\Models\Distrito::create([
-            'dis_nombre' => 'PACASMAYO',
-            'dis_ubigeo' => '130704',
-            'pro_id' => 1
-        ]);
 
         /**
          * TIPO DOCUMENTOS
@@ -52,25 +27,7 @@ class DatabaseSeeder extends Seeder
             'tdo_nombre' => 'RUC'
         ]);
 
-        /**
-         * PUESTOS
-         */
-
-        \App\Models\Puesto::create([
-            'pue_nombre' => 'ADMINISTRADOR',
-            'pue_descripcion' => 'ADMINISTRADOR DEL SISTEMA'
-
-        ]);
-
-        \App\Models\Puesto::create([
-            'pue_nombre' => 'OPTOMETRA',
-            'pue_descripcion' => 'OPTOMETRA DEL SISTEMA'
-        ]);
-
-        \App\Models\Puesto::create([
-            'pue_nombre' => 'VENDEDOR',
-            'pue_descripcion' => 'VENDEDOR DEL SISTEMA'
-        ]);
+       
 
 
         /**

@@ -42,8 +42,7 @@
                             @foreach ($clientes as $client)
                                 <option value="{{ $client->cli_id }}">
                                     {{ $client->cli_numero_documento }} -
-                                    {{ $client->cli_nombres }} {{ $client->cli_apellido_paterno }}
-                                    {{ $client->cli_apellido_materno }}
+                                    {{ $client->cli_nombre_completo }}
                                 </option>
                             @endforeach
                         </x-slot>
