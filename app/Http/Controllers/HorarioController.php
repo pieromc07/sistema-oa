@@ -146,15 +146,19 @@ class HorarioController extends Controller
         $citas = Cita::where('cit_fecha', $date)->where('cit_estado', '=', true)->get();
 
         $response = [];
+        if($citas->count() == 0){
+            return response()->json($horarios);
+        }
         foreach ($citas as $cita) {
             foreach ($horarios as $key => $horario) {
                 if ($cita->hor_id == $horario->hor_id && $cita->col_id == $horario->col_id) {
-                  
+
                 }else{
                     array_push($response, $horario);
                 }
             }
         }
+
 
         return response()->json($response);
     }
