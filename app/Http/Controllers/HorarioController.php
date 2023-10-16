@@ -126,7 +126,10 @@ class HorarioController extends Controller
         if ($fecha == 'null') {
             $fecha = date('Y-m-d');
         }
-        
+        // Zona horaria de Perú
+        $time = date('H:i:s',time() + (3600 * (-5)));
+
+
         $date = date('Y-m-d', strtotime($fecha));
         DB::statement('CREATE TEMPORARY TABLE horarios_optometras (hoo_id int primary key auto_increment, hor_id int, hoo_fecha date, col_id int)');
         $horarios = Horario::all();
@@ -138,7 +141,7 @@ class HorarioController extends Controller
         }
 
         $horarios = DB::select('SELECT col.col_id,  hor.hor_id, hoo.hoo_fecha AS fecha,  TIME_FORMAT(hor.hor_inicio, "%h:%i %p") AS inicio, TIME_FORMAT(hor.hor_fin, "%h:%i %p") AS fin, CONCAT(col.col_nombre_completo) AS optometra FROM horarios_optometras AS hoo INNER JOIN horarios AS hor ON hoo.hor_id = hor.hor_id INNER JOIN colaboradores AS col ON hoo.col_id = col.col_id WHERE hoo_fecha =
-        ?', [$date]);
+        ? AND hor.hor_inicio >= ?', [$date,  $time]);
 
         $citas = Cita::where('cit_fecha', $date)->where('cit_estado', '=', true)->get();
 
