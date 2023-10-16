@@ -123,12 +123,15 @@ class HorarioController extends Controller
 
     public function horarios($fecha)
     {
-        if ($fecha == 'null') {
+        if ($fecha == NULL) {
             $fecha = date('Y-m-d');
         }
         // Zona horaria de Perú
         $time = date('H:i:s',time() + (3600 * (-5)));
 
+        if($fecha < date('Y-m-d')){
+            return response()->json([]);
+        }
 
         $date = date('Y-m-d', strtotime($fecha));
         DB::statement('CREATE TEMPORARY TABLE horarios_optometras (hoo_id int primary key auto_increment, hor_id int, hoo_fecha date, col_id int)');
