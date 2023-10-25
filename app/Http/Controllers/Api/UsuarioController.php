@@ -156,4 +156,39 @@ class UsuarioController extends Controller
             ], 500);
         }
     }
+
+    /**
+    * Login de usuario
+    */
+    public function login(Request $request)
+    {
+        try {
+            $nombre = $request->nombre;
+            $contraseña = $request->contraseña;
+            $user = User::where('usu_nombre', $nombre)->first();
+            if ($user) {
+                if (password_verify($contraseña, $user->usu_contraseña)) {
+                    return Response::json([
+                        'message' => 'Usuario logueado correctamente',
+                        'user' => $user
+                    ], 200);
+                } else {
+                    return Response::json([
+                        'message' => 'Contraseña incorrecta',
+                    ], 400);
+                }
+
+            } else {
+                return Response::json([
+                    'message' => 'Usuario no encontrado',
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return Response::json([
+                'message' => 'Error al loguear usuario',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }

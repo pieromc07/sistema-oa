@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post("/login", [UsuarioController::class, "login"]);
 Route::get("/horarios/{fecha}", [HorarioController::class, "horarios"]);
