@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('cli_numero_documento');
             $table->string('cli_direccion')->nullable();
             $table->string('cli_celular')->nullable();
+            $table->string('cli_contraseña')->nullable();
             $table->unsignedInteger('dis_id');
             $table->foreign('dis_id')->references('dis_id')->on('distritos');
             $table->foreign('tdo_id')->references('tdo_id')->on('tipo_documentos');

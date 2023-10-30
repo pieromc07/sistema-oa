@@ -36,7 +36,18 @@ class Cliente extends Model
         'cli_numero_documento',
         'cli_direccion',
         'cli_celular',
+        'cli_contraseña',
         'dis_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<int, string>
+     */
+
+    protected $hidden = [
+        'cli_contraseña',
     ];
 
     /**

@@ -219,5 +219,10 @@ Route::get('generar/codigo', function () {
         $producto->pro_codigo_barra = $randomString;
         $producto->save();
     }
+    $clientes = \App\Models\Cliente::all();
+    foreach ($clientes as $cliente) {
+        $cliente->cli_contraseña = bcrypt($cliente->cli_numero_documento);
+        $cliente->save();
+    }
     return redirect()->route('producto.index');
 })->name('generar.codigo');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cliente;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -65,7 +66,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        
+
         $this->validateLogin($request);
 
         $user = User::where('usu_nombre', $request->usu_nombre)->first();
@@ -90,5 +91,40 @@ class LoginController extends Controller
     public function validateLogin(Request $request)
     {
         $request->validate($this->rules, $this->messages);
+    }
+
+    public function loginApiClient(Request $request)
+    {
+        $document = $request->document;
+        $password = $request->password;
+        try {
+            $client = Cliente::where('cli_numero_documento', $document)->first();
+
+            if ($client) {
+                if (password_verify($password, $client->cli_contraseña)) {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Login success',
+                        'data' => $client
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Password incorrect'
+                    ], 401);
+                }
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'User not found'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

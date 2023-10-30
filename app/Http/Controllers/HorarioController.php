@@ -135,7 +135,7 @@ class HorarioController extends Controller
         }
 
         $date = date('Y-m-d', strtotime($fecha));
-       
+
         DB::statement('CREATE TEMPORARY TABLE horarios_optometras (hoo_id int primary key auto_increment, hor_id int, hoo_fecha date, col_id int)');
         $horarios = Horario::all();
         $colaboradores = Colaborador::where('col_isOptometra', true)->get();
@@ -154,22 +154,22 @@ class HorarioController extends Controller
             ?', [$date]);
 
         $citas = Cita::where('cit_fecha', $date)->where('cit_estado', '=', true)->get();
-
         $response = [];
         if($citas->count() == 0){
             return response()->json($horarios);
         }
-        foreach ($citas as $cita) {
-            foreach ($horarios as $key => $horario) {
-                if ($cita->hor_id == $horario->hor_id && $cita->col_id == $horario->col_id) {
-
-                }else{
-                    array_push($response, $horario);
+        foreach ($horarios as $horario) {
+            $flag = true;
+            foreach ($citas as $cita) {
+                if ($horario->col_id == $cita->col_id && $horario->hor_id == $cita->hor_id) {
+                    $flag = false;
+                    break;
                 }
             }
+            if ($flag) {
+                $response[] = $horario;
+            }
         }
-
-
         return response()->json($response);
     }
 }

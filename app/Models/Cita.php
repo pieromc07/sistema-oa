@@ -35,7 +35,8 @@ class Cita extends Model
         'cli_id',
         'col_id',
         'hor_id',
-        'cit_fecha'
+        'cit_fecha',
+        'cit_estado'
     ];
 
     /**

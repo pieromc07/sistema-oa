@@ -39,6 +39,7 @@ class ClienteController extends Controller
         $this->validate($request, Cliente::$rules);
         try {
             DB::beginTransaction();
+            $request->merge(['cli_contraseña' => bcrypt($request->cli_numero_documento)]);
             Cliente::create($request->all());
             DB::commit();
         } catch (\Exception $e) {
